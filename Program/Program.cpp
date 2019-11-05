@@ -50,7 +50,7 @@ void Program::compile(string filename) {
 
             } else if(firstarg == "end") {
 
-            } else if(firstarg[0] == "#") {
+            } else if(firstarg[0] == '#') {
                 continue;
             } else {
                 cout << "SYNTAX OF LINE INCORRECT: " << line;
@@ -85,6 +85,27 @@ string* Program::splitString(string str, size_t& size) {
     string toParse = str;
 
     size = 0;
+    stringstream ssin(str);
+
+    while(ssin >> str) {
+        ++size;
+    }
+
+    string *arr = new string[size];
+    stringstream ssin2(toParse);
+    int i = 0;
+    while (i < size){
+        ssin2 >> arr[i];
+        ++i;
+    }
+
+    return arr;
+}
+
+string* Program::splitString(string str) {
+    string toParse = str;
+
+    size_t size = 0;
     stringstream ssin(str);
 
     while(ssin >> str) {

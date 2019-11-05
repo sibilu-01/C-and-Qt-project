@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Program/Operand.h"
+#include "Program/Program.h"
 #include <QJsonObject>
 #include <iostream>
 #include <sstream>
