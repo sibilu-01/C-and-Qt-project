@@ -1,5 +1,4 @@
 #include "Program.h"
-#include <typeinfo>
 using namespace std;
 
 //Compiles the input json.
