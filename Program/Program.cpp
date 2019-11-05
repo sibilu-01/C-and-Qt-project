@@ -39,17 +39,38 @@ void Program::compile() {
                     stat = new DeclIntStmt();
                 }
             } else if(firstarg == "rdi") {
-
+                if(words > 2) {
+                    cout << "SYNTAX ERROR: Too many arguments.";
+                } else {
+                    stat = new DeclIntStmt();
+                }
             } else if(firstarg == "prt") {
-
+                //work will have to go into whether this is a literal or string being printed.
+                stat = new DeclIntStmt();
             } else if(firstarg == "cmp") {
-
+                if(words > 3) {
+                    cout << "SYNTAX ERROR: Too many arguments.";
+                } else {
+                    stat = new DeclIntStmt();
+                }
             } else if(firstarg == "jmr") {
-
+                if(words > 2) {
+                    cout << "SYNTAX ERROR: Too many arguments.";
+                } else {
+                    stat = new DeclIntStmt();
+                }
             } else if(firstarg == "jmp") {
-
+                if(words > 2) {
+                    cout << "SYNTAX ERROR: Too many arguments.";
+                } else {
+                    stat = new DeclIntStmt();
+                }
             } else if(firstarg == "end") {
-
+                if(words > 1) {
+                    cout << "SYNTAX ERROR: Too many arguments.";
+                } else {
+                    stat = new DeclIntStmt();
+                }
             } else if(firstarg[0] == '#') {
                 continue;
             } else {
