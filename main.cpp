@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-    Program program = Program("example.txt");
+    Program program = Program();
     program.compile();
     /*
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

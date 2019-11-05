@@ -5,6 +5,7 @@ using namespace std;
 void Program::compile() {
     ifstream file;
     string line;
+    string filename = "example.txt";
     cout << "Opening file " << filename << ".\n";
     file.open(filename);
     if(file.is_open()) {
@@ -25,53 +26,31 @@ void Program::compile() {
                 firstarg.pop_back();
                 jsonLabelIdentifiers.insert(QString::fromStdString(firstarg), index);
                 firstarg = arr[1];
-                line = arr[1];
-                for(size_t i = 2; i < words; i++) {
-                    line += " " + arr[i];
+                line = firstarg;
+                if(words > 2) {
+                    for(size_t i = 2; i < words; i++) {
+                        line += " " + arr[i];
+                    }
                 }
                 words--;
             }
-
             if(firstarg == "dci") {
-                if(words > 2) {
-                    cout << "SYNTAX ERROR: Too many arguments.";
-                } else {
-                    stat = new DeclIntStmt();
-                }
+                stat = new DeclIntStmt();
             } else if(firstarg == "rdi") {
-                if(words > 2) {
-                    cout << "SYNTAX ERROR: Too many arguments.";
-                } else {
-                    stat = new DeclIntStmt();
-                }
+                stat = new DeclIntStmt();
             } else if(firstarg == "prt") {
                 //work will have to go into whether this is a literal or string being printed.
                 stat = new DeclIntStmt();
             } else if(firstarg == "cmp") {
-                if(words > 3) {
-                    cout << "SYNTAX ERROR: Too many arguments.";
-                } else {
-                    stat = new DeclIntStmt();
-                }
+                stat = new DeclIntStmt();
             } else if(firstarg == "jmr") {
-                if(words > 2) {
-                    cout << "SYNTAX ERROR: Too many arguments.";
-                } else {
-                    stat = new DeclIntStmt();
-                }
+                stat = new DeclIntStmt();
             } else if(firstarg == "jmp") {
-                if(words > 2) {
-                    cout << "SYNTAX ERROR: Too many arguments.";
-                } else {
-                    stat = new DeclIntStmt();
-                }
+                stat = new DeclIntStmt();
             } else if(firstarg == "end") {
-                if(words > 1) {
-                    cout << "SYNTAX ERROR: Too many arguments.";
-                } else {
-                    stat = new DeclIntStmt();
-                }
+                stat = new DeclIntStmt();
             } else if(firstarg[0] == '#') {
+                // Just a comment so skip the line.
                 continue;
             } else {
                 cout << "SYNTAX OF LINE INCORRECT: " << line;
