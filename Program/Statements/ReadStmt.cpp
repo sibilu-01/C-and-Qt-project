@@ -7,6 +7,6 @@ void ReadStmt::run() {
 
 }
 
-void ReadStmt::compile(string instr) {
+QJsonObject ReadStmt::compile(string instr) {
 
 }

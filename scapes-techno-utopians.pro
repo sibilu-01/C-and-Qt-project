@@ -13,8 +13,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Program/Operand.cpp \
         Program/Program.cpp \
+        Program/Statements/DeclIntStmt.cpp \
         Program/Statements/ReadStmt.cpp \
+        Program/Statements/Statement.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -35,3 +38,6 @@ HEADERS += \
     Program/Operand.h \
     Program/Program.h \
     Program/Statements/Statement.h
+
+DISTFILES += \
+    example.txt

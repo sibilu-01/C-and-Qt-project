@@ -1,9 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "Program/Statements/Statement.h"
+#include "Program/Program.h"
 
 int main(int argc, char *argv[])
 {
+    Program program;
+    program.compile();
+    /*
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
@@ -17,5 +21,6 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
-    return app.exec();
+    return app.exec();*/
+    return 0;
 }
