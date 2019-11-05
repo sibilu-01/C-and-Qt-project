@@ -17,9 +17,10 @@ class Program {
         string filename;
         int comparisonFlag;
     public:
+        Program(string file) { filename = file; }
         static string* splitString(string, size_t&);
         static string* splitString(string);
-        void compile(string filename);
+        void compile();
         void execute();
         void print();
 };

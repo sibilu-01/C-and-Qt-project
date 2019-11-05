@@ -2,7 +2,7 @@
 using namespace std;
 
 //Compiles the input json.
-void Program::compile(string filename) {
+void Program::compile() {
     ifstream file;
     string line;
     cout << "Opening file " << filename << ".\n";
@@ -26,7 +26,7 @@ void Program::compile(string filename) {
                 jsonLabelIdentifiers.insert(QString::fromStdString(firstarg), index);
                 firstarg = arr[1];
                 line = arr[1];
-                for(int i = 2; i < words; i++) {
+                for(size_t i = 2; i < words; i++) {
                     line += " " + arr[i];
                 }
                 words--;
@@ -93,7 +93,7 @@ string* Program::splitString(string str, size_t& size) {
 
     string *arr = new string[size];
     stringstream ssin2(toParse);
-    int i = 0;
+    size_t i = 0;
     while (i < size){
         ssin2 >> arr[i];
         ++i;
@@ -114,7 +114,7 @@ string* Program::splitString(string str) {
 
     string *arr = new string[size];
     stringstream ssin2(toParse);
-    int i = 0;
+    size_t i = 0;
     while (i < size){
         ssin2 >> arr[i];
         ++i;
