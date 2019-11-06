@@ -17,7 +17,7 @@ class Program {
         string filename;
         int comparisonFlag;
     public:
-        Program() {}
+        Program(string fn): filename(fn) {}
         static string* splitString(string, size_t&);
         static string* splitString(string);
         void compile();

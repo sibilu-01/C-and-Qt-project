@@ -5,7 +5,6 @@ using namespace std;
 void Program::compile() {
     ifstream file;
     string line;
-    string filename = "example.txt";
     cout << "Opening file " << filename << ".\n";
     file.open(filename);
     if(file.is_open()) {
@@ -60,7 +59,12 @@ void Program::compile() {
         compiled.insert("labels", jsonLabelIdentifiers);
 
         QJsonDocument doc(compiled);
-        QFile jsonFile("example.json");
+        string name = filename.substr(0, filename.length() - 3) + "json";
+        char namestr[name.length()+1];
+        name.copy(namestr, name.length()+1);
+        namestr[name.length()] = '\0';
+
+        QFile jsonFile(namestr);
         jsonFile.open(QFile::WriteOnly);
         jsonFile.write(doc.toJson(QJsonDocument::Indented));
 
