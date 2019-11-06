@@ -14,10 +14,10 @@ using namespace std;
 
 class Program {
     private:
+        QJsonObject jsonStats;
         string filename;
         int comparisonFlag;
     public:
-        QJsonObject jsonStats;
         QJsonObject jsonLabelIdentifiers;
         QJsonObject jsonVariableIdentifiers;
         Program();

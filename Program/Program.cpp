@@ -31,16 +31,16 @@ void Program::compile() {
             if(firstarg == "dci") {
                 stat = new DeclIntStmt();
             } else if(firstarg == "rdi") {
-                stat = new DeclIntStmt();
+                stat = new Statement();
             } else if(firstarg == "prt") {
                 //work will have to go into whether this is a literal or string being printed.
-                stat = new DeclIntStmt();
+                stat = new Statement();
             } else if(firstarg == "cmp") {
-                stat = new DeclIntStmt();
+                stat = new Statement();
             } else if(firstarg == "jmr") {
-                stat = new DeclIntStmt();
+                stat = new Statement();
             } else if(firstarg == "jmp") {
-                stat = new DeclIntStmt();
+                stat = new Statement();
             } else if(firstarg == "end") {
                 stat = new EndStmt();
             } else if(firstarg[0] == '#') {
