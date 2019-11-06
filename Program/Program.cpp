@@ -9,9 +9,9 @@ void Program::compile() {
     file.open(filename);
     if(file.is_open()) {
         cout << "File Opened.\n";
-        QJsonObject compiled;
         QJsonObject jsonStats;
         QJsonObject jsonLabelIdentifiers;
+        QJsonObject jsonVariableIdentifiers;
         int index = 0;
         while(getline(file, line)) {
             cout << index << " : " << line << "\n";
@@ -20,17 +20,20 @@ void Program::compile() {
             string* arr = splitString(line, words);
             Statement* stat;
             string firstarg = arr[0];
-            
+            int initialArg = 0;
+
             // Cuts the label out of the line and adds it to the list of identifiers as well as the line it exists at.
             if(firstarg.back() == ':') {
                 line = line.erase(0, firstarg.length());
                 firstarg.pop_back();
                 jsonLabelIdentifiers.insert(QString::fromStdString(firstarg), index);
                 firstarg = arr[1];
+                initialArg++;
             }
 
             if(firstarg == "dci") {
                 stat = new DeclIntStmt();
+                jsonVariableIdentifiers.insert(QString::fromStdString(arr[initialArg+1]), 0);
             } else if(firstarg == "rdi") {
                 stat = new DeclIntStmt();
             } else if(firstarg == "prt") {
@@ -55,8 +58,12 @@ void Program::compile() {
             jsonStats.insert(QString::number(index), stat->compile(line));
             index++;
         }
+        QJsonObject compiled;
+        QJsonObject identifiers;
+        identifiers.insert("variables", jsonVariableIdentifiers);
+        identifiers.insert("labels", jsonLabelIdentifiers);
+        compiled.insert("identifiers", identifiers);
         compiled.insert("objects", jsonStats);
-        compiled.insert("labels", jsonLabelIdentifiers);
 
         QJsonDocument doc(compiled);
         string name = filename.substr(0, filename.length() - 3) + "json";
