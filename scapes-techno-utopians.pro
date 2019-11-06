@@ -1,5 +1,7 @@
-QT += quick
+QT += core gui
 CONFIG += c++11
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -19,7 +21,8 @@ SOURCES += \
         Program/Statements/EndStmt.cpp \
         Program/Statements/ReadStmt.cpp \
         Program/Statements/Statement.cpp \
-        main.cpp
+        main.cpp \
+        mainwindow.cpp
 
 RESOURCES += qml.qrc
 
@@ -38,7 +41,11 @@ HEADERS += \
     Program/Identifier.h \
     Program/Operand.h \
     Program/Program.h \
-    Program/Statements/Statement.h
+    Program/Statements/Statement.h \
+    mainwindow.h
 
 DISTFILES += \
     example.txt
+
+FORMS += \
+    mainwindow.ui
