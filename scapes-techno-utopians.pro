@@ -16,6 +16,7 @@ SOURCES += \
         Program/Operand.cpp \
         Program/Program.cpp \
         Program/Statements/DeclIntStmt.cpp \
+        Program/Statements/EndStmt.cpp \
         Program/Statements/ReadStmt.cpp \
         Program/Statements/Statement.cpp \
         main.cpp

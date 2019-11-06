@@ -15,6 +15,7 @@ void Program::compile() {
         QJsonObject jsonLabelIdentifiers;
         int index = 0;
         while(getline(file, line)) {
+            cout << index << " : " << line << "\n";
             //ADD SYNTAX CHECKER
             size_t words = 0;
             string* arr = splitString(line, words);
@@ -23,17 +24,12 @@ void Program::compile() {
             
             // Cuts the label out of the line and adds it to the list of identifiers as well as the line it exists at.
             if(firstarg.back() == ':') {
+                line = line.erase(0, firstarg.length());
                 firstarg.pop_back();
                 jsonLabelIdentifiers.insert(QString::fromStdString(firstarg), index);
                 firstarg = arr[1];
-                line = firstarg;
-                if(words > 2) {
-                    for(size_t i = 2; i < words; i++) {
-                        line += " " + arr[i];
-                    }
-                }
-                words--;
             }
+
             if(firstarg == "dci") {
                 stat = new DeclIntStmt();
             } else if(firstarg == "rdi") {
@@ -48,7 +44,7 @@ void Program::compile() {
             } else if(firstarg == "jmp") {
                 stat = new DeclIntStmt();
             } else if(firstarg == "end") {
-                stat = new DeclIntStmt();
+                stat = new EndStmt();
             } else if(firstarg[0] == '#') {
                 // Just a comment so skip the line.
                 continue;

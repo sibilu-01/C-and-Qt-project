@@ -33,4 +33,11 @@ class DeclIntStmt: public Statement {
         QJsonObject compile(string instr) override;
 };
 
+class EndStmt: public Statement {
+    public:
+        EndStmt();
+        void run() override;
+        QJsonObject compile(string instr) override;
+};
+
 #endif

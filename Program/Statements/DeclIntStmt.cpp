@@ -1,5 +1,4 @@
 #include "Statement.h"
-#include "Program/Program.h"
 
 DeclIntStmt::DeclIntStmt(): varName("") {}
 DeclIntStmt::DeclIntStmt(Operand in): varName(in) {}
