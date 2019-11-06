@@ -17,6 +17,10 @@ class Program {
         string filename;
         int comparisonFlag;
     public:
+        QJsonObject jsonStats;
+        QJsonObject jsonLabelIdentifiers;
+        QJsonObject jsonVariableIdentifiers;
+        Program();
         Program(string fn): filename(fn) {}
         static string* splitString(string, size_t&);
         static string* splitString(string);

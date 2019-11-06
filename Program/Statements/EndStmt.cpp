@@ -6,7 +6,7 @@ void EndStmt::run() {
 
 }
 
-QJsonObject EndStmt::compile(string instr) {
+QJsonObject EndStmt::compile(Program *program, string instr) {
     string *arr = Program::splitString(instr);
 
     QJsonObject statementObject;

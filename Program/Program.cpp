@@ -9,9 +9,6 @@ void Program::compile() {
     file.open(filename);
     if(file.is_open()) {
         cout << "File Opened.\n";
-        QJsonObject jsonStats;
-        QJsonObject jsonLabelIdentifiers;
-        QJsonObject jsonVariableIdentifiers;
         int index = 0;
         while(getline(file, line)) {
             cout << index << " : " << line << "\n";
@@ -33,7 +30,6 @@ void Program::compile() {
 
             if(firstarg == "dci") {
                 stat = new DeclIntStmt();
-                jsonVariableIdentifiers.insert(QString::fromStdString(arr[initialArg+1]), 0);
             } else if(firstarg == "rdi") {
                 stat = new DeclIntStmt();
             } else if(firstarg == "prt") {
@@ -55,7 +51,7 @@ void Program::compile() {
                 break;
             }
 
-            jsonStats.insert(QString::number(index), stat->compile(line));
+            jsonStats.insert(QString::number(index), stat->compile(this, line));
             index++;
         }
         QJsonObject compiled;
