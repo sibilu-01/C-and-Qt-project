@@ -26,6 +26,7 @@ void Program::compile() {
                 jsonLabelIdentifiers.insert(QString::fromStdString(firstarg), index);
                 firstarg = arr[1];
                 initialArg++;
+                words++;
             }
 
             if(firstarg == "dci") {
@@ -60,6 +61,7 @@ void Program::compile() {
         identifiers.insert("labels", jsonLabelIdentifiers);
         compiled.insert("identifiers", identifiers);
         compiled.insert("objects", jsonStats);
+        compiled.insert("index", index);
 
         QJsonDocument doc(compiled);
         string name = filename.substr(0, filename.length() - 3) + "json";
