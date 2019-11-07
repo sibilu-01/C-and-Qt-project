@@ -71,7 +71,7 @@ void Program::compile() {
             compiled.insert("index", index);
 
             QJsonDocument doc(compiled);
-            string name = filename.substr(0, filename.find(".")) + "json";
+            string name = filename.substr(0, filename.find(".")) + ".json";
             char namestr[name.length()+1];
             name.copy(namestr, name.length()+1);
             namestr[name.length()] = '\0';

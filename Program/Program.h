@@ -20,6 +20,7 @@ class Program {
     public:
         QJsonObject jsonLabelIdentifiers;
         QJsonObject jsonVariableIdentifiers;
+        int error_code = 0;
         Program();
         Program(string fn): filename(fn) {}
         static string* splitString(string, size_t&);
