@@ -8,6 +8,7 @@ void Program::compile() {
     cout << "Opening file " << filename << ".\n";
     file.open(filename);
     if(file.is_open()) {
+        int error_code = 0;
         cout << "File Opened.\n";
         int index = 0;
         while(getline(file, line)) {
@@ -35,7 +36,7 @@ void Program::compile() {
                 stat = new Statement();
             } else if(firstarg == "prt") {
                 //work will have to go into whether this is a literal or string being printed.
-                stat = new Statement();
+                stat = new PrtStmt();
             } else if(firstarg == "cmp") {
                 stat = new Statement();
             } else if(firstarg == "jmr") {
@@ -51,28 +52,34 @@ void Program::compile() {
                 cout << "SYNTAX OF LINE INCORRECT: " << line;
                 break;
             }
-
-            jsonStats.insert(QString::number(index), stat->compile(this, line));
-            index++;
+            QJsonObject statementObject = stat->compile(this, line);
+            if(!statementObject.empty()) {
+                jsonStats.insert(QString::number(index), statementObject);
+                index++;
+            } else {
+                cout << "COMPILER ERROR\n";
+                break;
+            }
         }
-        QJsonObject compiled;
-        QJsonObject identifiers;
-        identifiers.insert("variables", jsonVariableIdentifiers);
-        identifiers.insert("labels", jsonLabelIdentifiers);
-        compiled.insert("identifiers", identifiers);
-        compiled.insert("objects", jsonStats);
-        compiled.insert("index", index);
+        if(error_code == 0) {
+            QJsonObject compiled;
+            QJsonObject identifiers;
+            identifiers.insert("variables", jsonVariableIdentifiers);
+            identifiers.insert("labels", jsonLabelIdentifiers);
+            compiled.insert("identifiers", identifiers);
+            compiled.insert("objects", jsonStats);
+            compiled.insert("index", index);
 
-        QJsonDocument doc(compiled);
-        string name = filename.substr(0, filename.length() - 3) + "json";
-        char namestr[name.length()+1];
-        name.copy(namestr, name.length()+1);
-        namestr[name.length()] = '\0';
+            QJsonDocument doc(compiled);
+            string name = filename.substr(0, filename.length() - 3) + "json";
+            char namestr[name.length()+1];
+            name.copy(namestr, name.length()+1);
+            namestr[name.length()] = '\0';
 
-        QFile jsonFile(namestr);
-        jsonFile.open(QFile::WriteOnly);
-        jsonFile.write(doc.toJson(QJsonDocument::Indented));
-
+            QFile jsonFile(namestr);
+            jsonFile.open(QFile::WriteOnly);
+            jsonFile.write(doc.toJson(QJsonDocument::Indented));
+        }
         file.close();
     }
 }

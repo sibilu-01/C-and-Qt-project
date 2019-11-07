@@ -8,12 +8,19 @@ void DeclIntStmt::run() {
 }
 
 QJsonObject DeclIntStmt::compile(Program *program, string instr) {
-    string *arr = Program::splitString(instr);
+    size_t words = 0;
+    string *arr = Program::splitString(instr, words);
 
     QJsonObject statementObject;
-    statementObject.insert("stmt", QString::fromStdString(arr[0]));
-    statementObject.insert("op1", QString::fromStdString(arr[1]));
-    program->jsonVariableIdentifiers.insert(QString::fromStdString(arr[1]), 0);
+    if(words == 2) {
+        statementObject.insert("stmt", QString::fromStdString(arr[0]));
+        statementObject.insert("op1", QString::fromStdString(arr[1]));
+        program->jsonVariableIdentifiers.insert(QString::fromStdString(arr[1]), 0);
+    } else {
+        //throw program warning.
+        string warning = "SYNTAX ERROR AT LINE: " + instr + "\n";
+        cout << warning;
+    }
 
     return statementObject;
 }
