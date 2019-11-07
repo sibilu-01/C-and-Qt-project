@@ -17,9 +17,7 @@ QJsonObject DeclIntStmt::compile(Program *program, string instr) {
         statementObject.insert("op1", QString::fromStdString(arr[1]));
         program->jsonVariableIdentifiers.insert(QString::fromStdString(arr[1]), 0);
     } else {
-        //throw program warning.
-        string warning = "SYNTAX ERROR AT LINE: " + instr + "\n";
-        cout << warning;
+        program->error_code = 1; // Syntax error
     }
 
     return statementObject;

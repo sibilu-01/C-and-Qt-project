@@ -14,8 +14,7 @@ QJsonObject EndStmt::compile(Program *program, string instr) {
     if(words == 1) {
         statementObject.insert("stmt", QString::fromStdString(arr[0]));
     } else {
-        //throw program warning.
-        string warning = "SYNTAX ERROR AT END STATEMENT: Too many arguments.";
+        program->error_code = 1; // Syntax error
     }
 
     return statementObject;

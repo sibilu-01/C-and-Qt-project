@@ -11,30 +11,29 @@ QJsonObject PrtStmt::compile(Program *program, string instr) {
     string *arr = Program::splitString(instr, words);
 
     QJsonObject statementObject;
-    if(words >= 2) {
+    if(words >= 2) { // Words 2 args or greater.
         string print;
         for(size_t i = 1; i < words - 1; i++) {
             print.append(arr[i] + " ");
         }
-        print.append(arr[words-1]);
+        print.append(arr[words-1]); //Make our print string.
 
-        if(print.front() == '\"' && print.back() == '\"') {
+        if(print.front() == '\"' && print.back() == '\"') { // Check for quotes.
             statementObject.insert("stmt", QString::fromStdString(arr[0]));
             statementObject.insert("printstr", QString::fromStdString(print));
-        } else if(words == 2) {
+        } else if(words == 2) { // 2 words means var print
             if(program->jsonVariableIdentifiers.contains(QString::fromStdString(arr[1]))) {
                 statementObject.insert("stmt", QString::fromStdString(arr[0]));
                 statementObject.insert("printvar", QString::fromStdString(arr[1]));
             } else {
-                string warning = "VARIABLE ERROR AT: " + instr + ".\nVariable does not exist.";
+                program->error_code = 2; //Var not found.
             }
         } else {
-            string warning = "SYNTAX ERROR AT: " + instr;
+            program->error_code = 1; //Syntax error
         }
 
     } else {
-        //throw program warning.
-        string warning = "SYNTAX ERROR AT: " + instr;
+        program->error_code = 1; //Syntax error
     }
 
     return statementObject;

@@ -8,7 +8,7 @@ void Program::compile() {
     cout << "Opening file " << filename << ".\n";
     file.open(filename);
     if(file.is_open()) {
-        int error_code = 0;
+        error_code = 0;
         cout << "File Opened.\n";
         int index = 0;
         while(getline(file, line)) {
@@ -49,7 +49,7 @@ void Program::compile() {
                 // Just a comment so skip the line.
                 continue;
             } else {
-                cout << "SYNTAX OF LINE INCORRECT: " << line;
+                error_code = 1; // Syntax error
                 break;
             }
             QJsonObject statementObject = stat->compile(this, line);
@@ -71,7 +71,7 @@ void Program::compile() {
             compiled.insert("index", index);
 
             QJsonDocument doc(compiled);
-            string name = filename.substr(0, filename.length() - 3) + "json";
+            string name = filename.substr(0, filename.find(".")) + "json";
             char namestr[name.length()+1];
             name.copy(namestr, name.length()+1);
             namestr[name.length()] = '\0';
@@ -79,6 +79,10 @@ void Program::compile() {
             QFile jsonFile(namestr);
             jsonFile.open(QFile::WriteOnly);
             jsonFile.write(doc.toJson(QJsonDocument::Indented));
+        } else if(error_code == 1) {
+            //Report syntax error
+        } else if(error_code == 2) {
+            //Report VarNotFound error
         }
         file.close();
     }
