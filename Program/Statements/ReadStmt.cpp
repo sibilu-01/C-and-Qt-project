@@ -1,5 +1,6 @@
 #include "Statement.h"
 
+ReadStmt::ReadStmt() {}
 void ReadStmt::run() {
 
 }

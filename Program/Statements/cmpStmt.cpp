@@ -1,14 +1,12 @@
 #include "Statement.h"
 
-cmpStmt::cmpStmt(): varName("") {}
-cmpStmt::cmpStmt(Operand in1): varName(in1) {}
-cmpStmt::cmpStmt(Operand in2): varName(in2) {}
+CmpStmt::CmpStmt() {}
 
-void cmpStmt::run() {
+void CmpStmt::run() {
 
 }
 
-QJsonObject cmpStmt::compile(Program *program, string instr) {
+QJsonObject CmpStmt::compile(Program *program, string instr) {
     string *arr = Program::splitString(instr);
 
     QJsonObject statementObject;

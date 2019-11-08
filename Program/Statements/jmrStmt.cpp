@@ -1,13 +1,12 @@
 #include "Statement.h"
 
-jmrStmt::jmrStmt(): varName("") {}
-jmrStmt::jmrStmt(Operand in): varName(in) {}
+JmrStmt::JmrStmt() {}
 
-void jmrStmt::run() {
+void JmrStmt::run() {
 
 }
 
-QJsonObject jmrStmt::compile(Program *program, string instr) {
+QJsonObject JmrStmt::compile(Program *program, string instr) {
     string *arr = Program::splitString(instr);
 
     QJsonObject statementObject;
