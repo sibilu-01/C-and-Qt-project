@@ -41,4 +41,24 @@ class EndStmt: public Statement {
         QJsonObject compile(Program *program, string instr) override;
 };
 
+class CmpStmt: public Statement {
+    public:
+        CmpStmt();
+        void run () override;
+        QJsonObject compile(Program *program, string instr) override;
+}
+class JmpStmt: public Statement {
+    public:
+        JmpStmt();
+        void run() override;
+        QJsonObject compile(program *program, string instr) override;
+};
+
+class JmrStmt: public Statement {
+    public:
+        JmrStmt();
+        void run() override;
+        QJsonObject compile(program *program, string instr) override;
+}
+
 #endif
