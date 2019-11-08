@@ -11,14 +11,13 @@ void Program::compile() {
         error_code = 0;
         cout << "File Opened.\n";
         int index = 0;
+        int linenum = 0;
         while(getline(file, line)) {
             cout << index << " : " << line << "\n";
             //ADD SYNTAX CHECKER
             size_t words = 0;
             string* arr = splitString(line, words);
-            Statement* stat;
             string firstarg = arr[0];
-            int initialArg = 0;
 
             // Cuts the label out of the line and adds it to the list of identifiers as well as the line it exists at.
             if(firstarg.back() == ':') {
@@ -26,23 +25,22 @@ void Program::compile() {
                 firstarg.pop_back();
                 jsonLabelIdentifiers.insert(QString::fromStdString(firstarg), index);
                 firstarg = arr[1];
-                initialArg++;
                 words++;
             }
 
+            Statement* stat;
             if(firstarg == "dci") {
                 stat = new DeclIntStmt();
             } else if(firstarg == "rdi") {
-                stat = new Statement();
+                stat = new ReadStmt();
             } else if(firstarg == "prt") {
-                //work will have to go into whether this is a literal or string being printed.
                 stat = new PrtStmt();
             } else if(firstarg == "cmp") {
-                stat = new Statement();
+                stat = new DeclIntStmt();
             } else if(firstarg == "jmr") {
-                stat = new Statement();
+                stat = new DeclIntStmt();
             } else if(firstarg == "jmp") {
-                stat = new Statement();
+                stat = new DeclIntStmt();
             } else if(firstarg == "end") {
                 stat = new EndStmt();
             } else if(firstarg[0] == '#') {
@@ -52,14 +50,15 @@ void Program::compile() {
                 error_code = 1; // Syntax error
                 break;
             }
+
             QJsonObject statementObject = stat->compile(this, line);
             if(!statementObject.empty()) {
                 jsonStats.insert(QString::number(index), statementObject);
                 index++;
             } else {
-                cout << "COMPILER ERROR\n";
                 break;
             }
+            linenum++;
         }
         if(error_code == 0) {
             QJsonObject compiled;

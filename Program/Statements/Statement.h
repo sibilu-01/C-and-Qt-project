@@ -12,13 +12,10 @@ class Program;
 
 class Statement {
     public:
-        Statement() {}
         virtual ~Statement() {}
-        virtual void run() {}
-        virtual QJsonObject compile(Program *program, string instr) {
-            QJsonObject stmt;
-            stmt.insert("stmt", "stmt");
-            return stmt; }
+        virtual void run() = 0;
+        virtual QJsonObject compile(Program *program, string instr) = 0;
+        Statement() {}
 };
 
 class ReadStmt: public Statement {
@@ -37,16 +34,16 @@ class DeclIntStmt: public Statement {
         QJsonObject compile(Program *program, string instr) override;
 };
 
-class PrtStmt: public Statement {
+class EndStmt: public Statement {
     public:
-        PrtStmt();
+        EndStmt();
         void run() override;
         QJsonObject compile(Program *program, string instr) override;
 };
 
-class EndStmt: public Statement {
+class PrtStmt: public Statement {
     public:
-        EndStmt();
+        PrtStmt();
         void run() override;
         QJsonObject compile(Program *program, string instr) override;
 };
