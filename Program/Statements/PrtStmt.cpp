@@ -6,7 +6,7 @@ void PrtStmt::run() {
 
 }
 
-QJsonObject PrtStmt::compile(Program *program, vector<string> args) {
+QJsonObject PrtStmt::compile(map<string, Identifier*> *identifiers, vector<string> args) {
     size_t words = args.size();
 
     QJsonObject statementObject;
@@ -21,18 +21,11 @@ QJsonObject PrtStmt::compile(Program *program, vector<string> args) {
             statementObject.insert("stmt", "prt");
             statementObject.insert("prints", QString::fromStdString(print));
         } else if(words == 2) { // 2 words w no quotes means var print
-            if(program->identifierExists(args[1])) {
+            if(identifiers->find(args[1]) != identifiers->end()) {
                 statementObject.insert("stmt", "prt");
-                statementObject.insert("print", QString::fromStdString(program->getIdentifier(args[1])->getName()));
-            } else {
-                program->error_code = 2; //Var not found.
+                statementObject.insert("print", QString::fromStdString(identifiers->find(args[1])->second->getName()));
             }
-        } else {
-            program->error_code = 1; //Syntax error
         }
-
-    } else {
-        program->error_code = 1; //Syntax error
     }
 
     return statementObject;

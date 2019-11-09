@@ -7,16 +7,15 @@
 #include <QJsonObject>
 #include <iostream>
 #include <sstream>
-#include "Program/Program.h"
 #include <vector>
+#include <map>
 using namespace std;
-class Program;
 
 class Statement {
     public:
         virtual ~Statement() {}
         virtual void run() = 0;
-        virtual QJsonObject compile(Program *program, vector<string> args) = 0;
+        virtual QJsonObject compile(map<string, Identifier*> *identifiers, vector<string> args) = 0;
         Statement() {}
 };
 
@@ -26,7 +25,7 @@ class ReadStmt: public Statement {
     public:
         ReadStmt(string varName);
         void run() override;
-        QJsonObject compile(Program *program, vector<string> args) override;
+        QJsonObject compile(map<string, Identifier*> *identifiers, vector<string> args) override;
 };
 
 class DeclIntStmt: public Statement {
@@ -35,14 +34,14 @@ class DeclIntStmt: public Statement {
     public:
         DeclIntStmt(string varName);
         void run() override;
-        QJsonObject compile(Program *program, vector<string> args) override;
+        QJsonObject compile(map<string, Identifier*> *identifiers, vector<string> args) override;
 };
 
 class EndStmt: public Statement {
     public:
         EndStmt();
         void run() override;
-        QJsonObject compile(Program *program, vector<string> args) override;
+        QJsonObject compile(map<string, Identifier*> *identifiers, vector<string> args) override;
 };
 
 class PrtStmt: public Statement {
@@ -51,7 +50,7 @@ class PrtStmt: public Statement {
     public:
         PrtStmt(string toprint);
         void run() override;
-        QJsonObject compile(Program *program, vector<string> args) override;
+        QJsonObject compile(map<string, Identifier*> *identifiers, vector<string> args) override;
 };
 
 #endif

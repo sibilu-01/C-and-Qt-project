@@ -78,7 +78,7 @@ void Program::compile() {
             }
 
             this->addStatement(index, stat);
-            jsonStats.insert(QString::number(index), stat->compile(this, arr));
+            jsonStats.insert(QString::number(index), stat->compile(&this->identifier, arr));
             index++;
         }
 

@@ -6,6 +6,6 @@ void ReadStmt::run() {
 
 }
 
-QJsonObject ReadStmt::compile(Program *program, vector<string> args) {
+QJsonObject ReadStmt::compile(map<string, Identifier*> *identifiers, vector<string> args) {
 
 }
