@@ -16,12 +16,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         Program/Operand.cpp \
-        Program/Program.cpp \
         Program/Statements/DeclIntStmt.cpp \
         Program/Statements/EndStmt.cpp \
         Program/Statements/PrtStmt.cpp \
         Program/Statements/ReadStmt.cpp \
         Program/Statements/Statement.cpp \
+        Program/Program.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -41,8 +41,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     Program/Identifier.h \
     Program/Operand.h \
-    Program/Program.h \
     Program/Statements/Statement.h \
+    Program/Program.h \
     mainwindow.h
 
 DISTFILES += \

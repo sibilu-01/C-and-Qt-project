@@ -1,30 +1,29 @@
 #include "Statement.h"
 
-PrtStmt::PrtStmt() {}
+PrtStmt::PrtStmt(string s): variable(s) {}
 
 void PrtStmt::run() {
 
 }
 
-QJsonObject PrtStmt::compile(Program *program, string instr) {
-    size_t words = 0;
-    string *arr = Program::splitString(instr, words);
+QJsonObject PrtStmt::compile(Program *program, vector<string> args) {
+    size_t words = args.size();
 
     QJsonObject statementObject;
     if(words >= 2) { // Words 2 args or greater.
         string print;
         for(size_t i = 1; i < words - 1; i++) {
-            print.append(arr[i] + " ");
+            print.append(args[i] + " ");
         }
-        print.append(arr[words-1]); //Make our print string.
+        print.append(args[words-1]); //Make our print string.
 
         if(print.front() == '\"' && print.back() == '\"') { // Check for quotes.
-            statementObject.insert("stmt", QString::fromStdString(arr[0]));
-            statementObject.insert("printstr", QString::fromStdString(print));
-        } else if(words == 2) { // 2 words means var print
-            if(program->jsonVariableIdentifiers.contains(QString::fromStdString(arr[1]))) {
-                statementObject.insert("stmt", QString::fromStdString(arr[0]));
-                statementObject.insert("printvar", QString::fromStdString(arr[1]));
+            statementObject.insert("stmt", "prt");
+            statementObject.insert("prints", QString::fromStdString(print));
+        } else if(words == 2) { // 2 words w no quotes means var print
+            if(program->identifierExists(args[1])) {
+                statementObject.insert("stmt", "prt");
+                statementObject.insert("print", QString::fromStdString(program->getIdentifier(args[1])->getName()));
             } else {
                 program->error_code = 2; //Var not found.
             }

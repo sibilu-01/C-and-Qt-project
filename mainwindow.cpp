@@ -86,6 +86,9 @@ void MainWindow::on_actionSave_As_triggered()
 
 void MainWindow::on_actionCompile_triggered()
 {
+    //Save file
+    //Save save location in string
+    //pass to program
     Program program = Program("example.txt");
     program.compile();
 }

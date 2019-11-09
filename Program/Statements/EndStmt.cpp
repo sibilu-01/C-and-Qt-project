@@ -6,13 +6,12 @@ void EndStmt::run() {
 
 }
 
-QJsonObject EndStmt::compile(Program *program, string instr) {
-    size_t words = 0;
-    string *arr = Program::splitString(instr, words);
+QJsonObject EndStmt::compile(Program *program, vector<string> args) {
+    size_t words = args.size();
 
     QJsonObject statementObject;
     if(words == 1) {
-        statementObject.insert("stmt", QString::fromStdString(arr[0]));
+        statementObject.insert("stmt", QString::fromStdString("end"));
     } else {
         program->error_code = 1; // Syntax error
     }

@@ -3,7 +3,8 @@
 
 class Operand {
     private:
-        string value;
+        Identifier* identifier;
     public:
         Operand(string in);
+        Identifier* getIdentifier();
 };

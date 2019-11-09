@@ -9,78 +9,104 @@ void Program::compile() {
     file.open(filename);
     if(file.is_open()) {
         error_code = 0;
-        cout << "File Opened.\n";
         int index = 0;
         int linenum = 0;
+        QJsonObject jsonStats;
+
+        cout << "File Opened.\n";
         while(getline(file, line)) {
-            cout << index << " : " << line << "\n";
-            //ADD SYNTAX CHECKER
-            size_t words = 0;
-            string* arr = splitString(line, words);
-            string firstarg = arr[0];
+            vector<string> arr = splitString(line);
+            // Cuts the label out of the line and adds it to the list of identifiers as well as the line it exists at.
+            if(arr[0].back() == ':') {
+                line = line.erase(0, arr[0].length());
+                arr[0].pop_back();
+                this->addIdentifier(new Label(arr[0], index));
+                arr.erase(arr.begin());
+            }
+            if(arr[0][0] == '#') {
+                // Just a comment so skip the line.
+                continue;
+            }
+            index++;
+        }
+
+        index = 0;
+        file.clear();
+        file.seekg(0, ios::beg);
+
+        while(getline(file, line)) {
+            cout << linenum << " : " << line << "\n";
+            linenum++;
+
+            vector<string> arr = splitString(line);
 
             // Cuts the label out of the line and adds it to the list of identifiers as well as the line it exists at.
-            if(firstarg.back() == ':') {
-                line = line.erase(0, firstarg.length());
-                firstarg.pop_back();
-                jsonLabelIdentifiers.insert(QString::fromStdString(firstarg), index);
-                firstarg = arr[1];
-                words++;
+            if(arr[0].back() == ':') {
+                line = line.erase(0, arr[0].length());
+                arr.erase(arr.begin());
             }
 
             Statement* stat;
-            if(firstarg == "dci") {
-                stat = new DeclIntStmt();
-            } else if(firstarg == "rdi") {
-                stat = new ReadStmt();
-            } else if(firstarg == "prt") {
-                stat = new PrtStmt();
-            } else if(firstarg == "cmp") {
-                stat = new DeclIntStmt();
-            } else if(firstarg == "jmr") {
-                stat = new DeclIntStmt();
-            } else if(firstarg == "jmp") {
-                stat = new DeclIntStmt();
-            } else if(firstarg == "end") {
+            if(arr[0] == "dci") {
+                stat = new DeclIntStmt(arr[1]);
+            } else if(arr[0] == "rdi") {
+                continue;
+                //stat = new ReadStmt();
+            } else if(arr[0] == "prt") {
+                line = line.erase(0, arr[0].length());
+                stat = new PrtStmt(line);
+            } else if(arr[0] == "cmp") {
+                continue;
+                //stat = new DeclIntStmt(arr[1]);
+            } else if(arr[0] == "jmr") {
+                continue;
+                //stat = new DeclIntStmt(arr[1]);
+            } else if(arr[0] == "jmp") {
+                continue;
+                //stat = new DeclIntStmt(arr[1]);
+            } else if(arr[0] == "end") {
                 stat = new EndStmt();
-            } else if(firstarg[0] == '#') {
+            } else if(arr[0][0] == '#') {
                 // Just a comment so skip the line.
                 continue;
             } else {
                 error_code = 1; // Syntax error
+            }
+
+            if(error_code != 0) {
                 break;
             }
 
-            QJsonObject statementObject = stat->compile(this, line);
-            if(!statementObject.empty()) {
-                jsonStats.insert(QString::number(index), statementObject);
-                index++;
-            } else {
-                break;
-            }
-            linenum++;
+            this->addStatement(index, stat);
+            jsonStats.insert(QString::number(index), stat->compile(this, arr));
+            index++;
         }
+
         if(error_code == 0) {
             QJsonObject compiled;
-            QJsonObject identifiers;
-            identifiers.insert("variables", jsonVariableIdentifiers);
-            identifiers.insert("labels", jsonLabelIdentifiers);
-            compiled.insert("identifiers", identifiers);
+            QJsonObject identifiersJson;
+            for(map<string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
+                identifiersJson.insert(QString::fromStdString(it->first), it->second->getValue());
+            }
+
+            compiled.insert("identifiers", identifiersJson);
             compiled.insert("objects", jsonStats);
             compiled.insert("index", index);
 
             QJsonDocument doc(compiled);
             string name = filename.substr(0, filename.find(".")) + ".json";
-            char namestr[name.length()+1];
-            name.copy(namestr, name.length()+1);
-            namestr[name.length()] = '\0';
 
-            QFile jsonFile(namestr);
+            QFile jsonFile(QString::fromStdString(name));
             jsonFile.open(QFile::WriteOnly);
             jsonFile.write(doc.toJson(QJsonDocument::Indented));
         } else if(error_code == 1) {
+            cout << "Syntax error on line: " << linenum << "\n";
             //Report syntax error
         } else if(error_code == 2) {
+            cout << "Variable not found error on line: " << linenum << "\n";
+            for(map<string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
+                cout << it->first << "\n";
+            }
             //Report VarNotFound error
         }
         file.close();
@@ -95,45 +121,29 @@ void Program::print() {
 
 }
 
-// cuts up a string of unknown size into parts.
-string* Program::splitString(string str, size_t& size) {
-    string toParse = str;
-
-    size = 0;
-    stringstream ssin(str);
-
-    while(ssin >> str) {
-        ++size;
-    }
-
-    string *arr = new string[size];
-    stringstream ssin2(toParse);
-    size_t i = 0;
-    while (i < size){
-        ssin2 >> arr[i];
-        ++i;
-    }
-
-    return arr;
+Identifier* Program::getIdentifier(string name) {
+    return this->identifier.find(name)->second;
 }
 
-string* Program::splitString(string str) {
-    string toParse = str;
+void Program::addIdentifier(Identifier* ident) {
+    this->identifier.insert(pair<string, Identifier*>(ident->getName(), ident));
+}
 
-    size_t size = 0;
-    stringstream ssin(str);
+bool Program::identifierExists(string name) {
+    return this->identifier.find(name) != identifier.end();
+}
 
-    while(ssin >> str) {
-        ++size;
-    }
 
-    string *arr = new string[size];
-    stringstream ssin2(toParse);
-    size_t i = 0;
-    while (i < size){
-        ssin2 >> arr[i];
-        ++i;
-    }
+Statement* Program::getStatement(int index) {
+    return this->statements.find(index)->second;
+}
 
-    return arr;
+void Program::addStatement(int index, Statement* stat) {
+    this->statements.insert(pair<int, Statement*>(index, stat));
+}
+
+vector<string> Program::splitString(string str) {
+    stringstream ss(str);
+    vector<string> args((istream_iterator<string>(ss)), istream_iterator<string>());
+    return args;
 }

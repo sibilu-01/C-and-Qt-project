@@ -10,24 +10,31 @@
 #include <sstream>
 #include <QFile>
 #include <iterator>
+#include <map>
 using namespace std;
 
+class Statement;
 class Program {
     private:
-        QJsonObject jsonStats;
+        map<string, Identifier*> identifier;
+        map<int, Statement*> statements;
         string filename;
         int comparisonFlag;
     public:
-        QJsonObject jsonLabelIdentifiers;
-        QJsonObject jsonVariableIdentifiers;
         int error_code = 0;
         Program();
         Program(string fn): filename(fn) {}
-        static string* splitString(string, size_t&);
-        static string* splitString(string);
+        vector<string> splitString(string str);
         void compile();
         void execute();
         void print();
+
+        Identifier* getIdentifier(string name);
+        bool identifierExists(string name);
+        void addIdentifier(Identifier* ident);
+
+        Statement* getStatement(int index);
+        void addStatement(int index, Statement* stat);
 };
 
 #endif
