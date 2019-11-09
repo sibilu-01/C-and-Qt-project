@@ -26,7 +26,7 @@ class Variable: public Identifier {
     private:
         int value;
     public:
-        Variable(string name): Identifier(name) {}
+        Variable(string name, int val): Identifier(name), value(val) {}
         ~Variable() override {
 
         }
@@ -43,10 +43,7 @@ class Label: public Identifier {
     private:
         int index_pos;
     public:
-        Label(string name, int index_pos): Identifier(name) {
-            this->index_pos = index_pos;
-        }
-
+        Label(string name, int index): Identifier(name), index_pos(index) {}
         ~Label() override {
 
         }

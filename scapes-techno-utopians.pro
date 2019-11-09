@@ -16,8 +16,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         Program/Operand.cpp \
+        Program/Statements/CmpStmt.cpp \
         Program/Statements/DeclIntStmt.cpp \
         Program/Statements/EndStmt.cpp \
+        Program/Statements/JMoreStmt.cpp \
+        Program/Statements/JumpStmt.cpp \
         Program/Statements/PrtStmt.cpp \
         Program/Statements/ReadStmt.cpp \
         Program/Statements/Statement.cpp \

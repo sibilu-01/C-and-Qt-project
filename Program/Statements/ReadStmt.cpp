@@ -1,11 +1,17 @@
 #include "Statement.h"
 
-ReadStmt::ReadStmt(string varName): variable(Operand(varName)) {}
+ReadStmt::ReadStmt(Identifier* var): variable(var) {}
 
 void ReadStmt::run() {
 
 }
 
-QJsonObject ReadStmt::compile(map<string, Identifier*> *identifiers, vector<string> args) {
-
+QJsonObject ReadStmt::compile(vector<string> args) {
+    size_t words = args.size();
+    QJsonObject statementObject;
+    if(variable.getIdentifier() != nullptr && words == 2) {
+        statementObject.insert("stmt", QString::fromStdString("rdi"));
+        statementObject.insert("var", QString::fromStdString(variable.getIdentifier()->getName()));
+    }
+    return statementObject;
 }

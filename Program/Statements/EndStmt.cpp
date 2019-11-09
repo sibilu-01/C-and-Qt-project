@@ -6,7 +6,7 @@ void EndStmt::run() {
 
 }
 
-QJsonObject EndStmt::compile(map<string, Identifier*> *identifiers, vector<string> args) {
+QJsonObject EndStmt::compile(vector<string> args) {
     size_t words = args.size();
 
     QJsonObject statementObject;

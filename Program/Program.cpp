@@ -48,47 +48,87 @@ void Program::compile() {
 
             Statement* stat;
             if(arr[0] == "dci") {
-                stat = new DeclIntStmt(arr[1]);
+                if(arr[1].find_first_not_of("0123456789") != std::string::npos) {
+                    stat = new DeclIntStmt(&this->identifier, arr[1]);
+                } else {
+                    error_code = 1;
+                    break;
+                }
             } else if(arr[0] == "rdi") {
-                continue;
-                //stat = new ReadStmt();
+                if(this->identifierExists(arr[1])) {
+                    stat = new ReadStmt(this->getIdentifier(arr[1]));
+                } else {
+                    error_code = 1;
+                    break;
+                }
             } else if(arr[0] == "prt") {
-                line = line.erase(0, arr[0].length());
-                stat = new PrtStmt(line);
+                string text = line.substr(4, line.length());
+                if(this->identifierExists(text)) {
+                    stat = new PrtStmt(this->getIdentifier(text));
+                } else {
+                    stat = new PrtStmt(text);
+                }
             } else if(arr[0] == "cmp") {
-                continue;
-                //stat = new DeclIntStmt(arr[1]);
+                if(this->identifierExists(arr[1]) && this->identifierExists(arr[2])) {
+                    stat = new CmpStmt(this->getIdentifier(arr[1]), this->getIdentifier(arr[2]));
+                } else if(arr[1].find_first_not_of("0123456789") == std::string::npos && this->identifierExists(arr[2])) {
+                    stat = new CmpStmt(new Variable(arr[1], stoi(arr[1])), this->getIdentifier(arr[2]));
+                } else if(arr[2].find_first_not_of("0123456789") == std::string::npos && this->identifierExists(arr[1])) {
+                    stat = new CmpStmt(this->getIdentifier(arr[1]), new Variable(arr[2], stoi(arr[2])));
+                } else if(arr[1].find_first_not_of("0123456789") == std::string::npos && arr[2].find_first_not_of("0123456789") == std::string::npos) {
+                    stat = new CmpStmt(new Variable(arr[1], stoi(arr[1])), new Variable(arr[2], stoi(arr[2])));
+                } else {
+                    error_code = 1;
+                    break;
+                }
             } else if(arr[0] == "jmr") {
-                continue;
-                //stat = new DeclIntStmt(arr[1]);
+                if(this->identifierExists(arr[1])) {
+                    stat = new JMoreStmt(this->getIdentifier(arr[1]));
+                } else {
+                    error_code = 1;
+                    break;
+                }
             } else if(arr[0] == "jmp") {
-                continue;
-                //stat = new DeclIntStmt(arr[1]);
+                if(this->identifierExists(arr[1])) {
+                    stat = new JumpStmt(this->getIdentifier(arr[1]));
+                } else {
+                    error_code = 1;
+                    break;
+                }
             } else if(arr[0] == "end") {
                 stat = new EndStmt();
             } else if(arr[0][0] == '#') {
-                // Just a comment so skip the line.
                 continue;
             } else {
                 error_code = 1; // Syntax error
+                break;
             }
 
-            if(error_code != 0) {
+            QJsonObject statementObj = stat->compile(arr);
+            if(error_code != 0 || statementObj.empty()) {
+                error_code = 1;
                 break;
             }
 
             this->addStatement(index, stat);
-            jsonStats.insert(QString::number(index), stat->compile(&this->identifier, arr));
+            jsonStats.insert(QString::number(index), statementObj);
             index++;
         }
 
         if(error_code == 0) {
             QJsonObject compiled;
             QJsonObject identifiersJson;
+            QJsonObject labelsJson;
+            QJsonObject variablesJson;
             for(map<string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
-                identifiersJson.insert(QString::fromStdString(it->first), it->second->getValue());
+                if(dynamic_cast<Label*>(it->second)) {
+                    labelsJson.insert(QString::fromStdString(it->first), it->second->getValue());
+                } else {
+                    variablesJson.insert(QString::fromStdString(it->first), it->second->getValue());
+                }
             }
-
+            identifiersJson.insert("variables", variablesJson);
+            identifiersJson.insert("labels", labelsJson);
             compiled.insert("identifiers", identifiersJson);
             compiled.insert("objects", jsonStats);
             compiled.insert("index", index);
@@ -102,12 +142,6 @@ void Program::compile() {
         } else if(error_code == 1) {
             cout << "Syntax error on line: " << linenum << "\n";
             //Report syntax error
-        } else if(error_code == 2) {
-            cout << "Variable not found error on line: " << linenum << "\n";
-            for(map<string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
-                cout << it->first << "\n";
-            }
-            //Report VarNotFound error
         }
         file.close();
     }
