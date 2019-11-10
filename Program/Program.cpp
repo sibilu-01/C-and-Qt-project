@@ -42,7 +42,7 @@ void Program::compile() {
 
             // Cuts the label out of the line and adds it to the list of identifiers as well as the line it exists at.
             if(arr[0].back() == ':') {
-                line = line.erase(0, arr[0].length());
+                line = line.erase(0, arr[0].length()+1);
                 arr.erase(arr.begin());
             }
 
@@ -62,7 +62,7 @@ void Program::compile() {
                     break;
                 }
             } else if(arr[0] == "prt") {
-                string text = line.substr(4, line.length());
+                string text = line.substr(arr[0].length() + 1, line.length());
                 if(this->identifierExists(text)) {
                     stat = new PrtStmt(this->getIdentifier(text));
                 } else {

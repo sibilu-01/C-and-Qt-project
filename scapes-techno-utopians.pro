@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Program/Identifier.cpp \
         Program/Operand.cpp \
         Program/Statements/CmpStmt.cpp \
         Program/Statements/DeclIntStmt.cpp \
@@ -23,7 +24,6 @@ SOURCES += \
         Program/Statements/JumpStmt.cpp \
         Program/Statements/PrtStmt.cpp \
         Program/Statements/ReadStmt.cpp \
-        Program/Statements/Statement.cpp \
         Program/Program.cpp \
         main.cpp \
         mainwindow.cpp
