@@ -24,6 +24,7 @@ class Program {
         int error_code = 0;
         Program();
         Program(string fn): filename(fn) {}
+        ~Program();
         vector<string> splitString(string str);
         void compile();
         void execute();

@@ -1,6 +1,16 @@
 #include "Program.h"
 using namespace std;
 
+Program::~Program() {
+    for(map<string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
+        delete it->second;
+    }
+
+    for(map<int, Statement*>::iterator it = statements.begin(); it!=statements.end(); it++) {
+        delete it->second;
+    }
+}
+
 //Compiles the input json.
 void Program::compile() {
     ifstream file;
