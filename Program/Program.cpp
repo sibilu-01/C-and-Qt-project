@@ -58,7 +58,7 @@ void Program::compile() {
                 if(this->identifierExists(arr[1])) {
                     stat = new ReadStmt(this->getIdentifier(arr[1]));
                 } else {
-                    error_code = 1;
+                    error_code = 2;
                     break;
                 }
             } else if(arr[0] == "prt") {
@@ -78,21 +78,21 @@ void Program::compile() {
                 } else if(arr[1].find_first_not_of("0123456789") == std::string::npos && arr[2].find_first_not_of("0123456789") == std::string::npos) {
                     stat = new CmpStmt(new Variable(arr[1], stoi(arr[1])), new Variable(arr[2], stoi(arr[2])));
                 } else {
-                    error_code = 1;
+                    error_code = 2;
                     break;
                 }
             } else if(arr[0] == "jmr") {
                 if(this->identifierExists(arr[1])) {
                     stat = new JMoreStmt(this->getIdentifier(arr[1]));
                 } else {
-                    error_code = 1;
+                    error_code = 2;
                     break;
                 }
             } else if(arr[0] == "jmp") {
                 if(this->identifierExists(arr[1])) {
                     stat = new JumpStmt(this->getIdentifier(arr[1]));
                 } else {
-                    error_code = 1;
+                    error_code = 2;
                     break;
                 }
             } else if(arr[0] == "end") {
@@ -142,6 +142,8 @@ void Program::compile() {
         } else if(error_code == 1) {
             cout << "Syntax error on line: " << linenum << "\n";
             //Report syntax error
+        } else if(error_code == 2) {
+            cout << "Identifier Not Found error on line: " << linenum << "\n";
         }
         file.close();
     }
