@@ -1,21 +1,22 @@
 #include "Program.h"
-using namespace std;
+
+Program::Program(std::string fn): filename(fn) {}
 
 Program::~Program() {
-    for(map<string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
+    for(std::map<std::string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
         delete it->second;
     }
 
-    for(map<int, Statement*>::iterator it = statements.begin(); it!=statements.end(); it++) {
+    for(std::map<int, Statement*>::iterator it = statements.begin(); it!=statements.end(); it++) {
         delete it->second;
     }
 }
 
 //Compiles the input json.
-void Program::compile() {
-    ifstream file;
-    string line;
-    cout << "Opening file " << filename << ".\n";
+std::string Program::compile() {
+    std::ifstream file;
+    std::string line;
+    std::cout << "Opening file " << filename << ".\n";
     file.open(filename);
     if(file.is_open()) {
         error_code = 0;
@@ -23,9 +24,9 @@ void Program::compile() {
         int linenum = 0;
         QJsonObject jsonStats;
 
-        cout << "File Opened.\n";
+        std::cout << "File Opened.\n";
         while(getline(file, line)) {
-            vector<string> arr = splitString(line);
+            std::vector<std::string> arr = splitString(line);
             // Cuts the label out of the line and adds it to the list of identifiers as well as the line it exists at.
             if(arr[0].back() == ':') {
                 line = line.erase(0, arr[0].length());
@@ -42,13 +43,13 @@ void Program::compile() {
 
         index = 0;
         file.clear();
-        file.seekg(0, ios::beg);
+        file.seekg(0, std::ios::beg);
 
         while(getline(file, line)) {
-            cout << linenum << " : " << line << "\n";
+            std::cout << linenum << " : " << line << "\n";
             linenum++;
 
-            vector<string> arr = splitString(line);
+            std::vector<std::string> arr = splitString(line);
 
             // Cuts the label out of the line and adds it to the list of identifiers as well as the line it exists at.
             if(arr[0].back() == ':') {
@@ -72,7 +73,7 @@ void Program::compile() {
                     break;
                 }
             } else if(arr[0] == "prt") {
-                string text = line.substr(arr[0].length() + 1, line.length());
+                std::string text = line.substr(arr[0].length() + 1, line.length());
                 if(this->identifierExists(text)) {
                     stat = new PrtStmt(this->getIdentifier(text));
                 } else {
@@ -130,7 +131,7 @@ void Program::compile() {
             QJsonObject identifiersJson;
             QJsonObject labelsJson;
             QJsonObject variablesJson;
-            for(map<string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
+            for(std::map<std::string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
                 if(dynamic_cast<Label*>(it->second)) {
                     labelsJson.insert(QString::fromStdString(it->first), it->second->getValue());
                 } else {
@@ -144,16 +145,19 @@ void Program::compile() {
             compiled.insert("index", index);
 
             QJsonDocument doc(compiled);
-            string name = filename.substr(0, filename.find(".")) + ".json";
+            std::string name = filename.substr(0, filename.find(".")) + ".json";
 
             QFile jsonFile(QString::fromStdString(name));
             jsonFile.open(QFile::WriteOnly);
             jsonFile.write(doc.toJson(QJsonDocument::Indented));
+            return "File compiled successfully to: " + name;
         } else if(error_code == 1) {
-            cout << "Syntax error on line: " << linenum << "\n";
+            return "Syntax error on line: " + std::to_string(linenum);
             //Report syntax error
         } else if(error_code == 2) {
-            cout << "Identifier Not Found error on line: " << linenum << "\n";
+            return "Identifier Not Found error on line: " + std::to_string(linenum);
+        } else {
+            return "Unknown error encountered, please check your code and try again.";
         }
         file.close();
     }
@@ -167,15 +171,15 @@ void Program::print() {
 
 }
 
-Identifier* Program::getIdentifier(string name) {
+Identifier* Program::getIdentifier(std::string name) {
     return this->identifier.find(name)->second;
 }
 
 void Program::addIdentifier(Identifier* ident) {
-    this->identifier.insert(pair<string, Identifier*>(ident->getName(), ident));
+    this->identifier.insert(std::pair<std::string, Identifier*>(ident->getName(), ident));
 }
 
-bool Program::identifierExists(string name) {
+bool Program::identifierExists(std::string name) {
     return this->identifier.find(name) != identifier.end();
 }
 
@@ -185,11 +189,11 @@ Statement* Program::getStatement(int index) {
 }
 
 void Program::addStatement(int index, Statement* stat) {
-    this->statements.insert(pair<int, Statement*>(index, stat));
+    this->statements.insert(std::pair<int, Statement*>(index, stat));
 }
 
-vector<string> Program::splitString(string str) {
-    stringstream ss(str);
-    vector<string> args((istream_iterator<string>(ss)), istream_iterator<string>());
+std::vector<std::string> Program::splitString(std::string str) {
+    std::stringstream ss(str);
+    std::vector<std::string> args((std::istream_iterator<std::string>(ss)), std::istream_iterator<std::string>());
     return args;
 }

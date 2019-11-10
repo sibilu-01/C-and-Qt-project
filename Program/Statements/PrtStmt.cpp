@@ -1,6 +1,6 @@
 #include "Statement.h"
 
-PrtStmt::PrtStmt(string s): variable(s) {}
+PrtStmt::PrtStmt(std::string s): variable(s) {}
 
 PrtStmt::PrtStmt(Identifier* ident): identifier(ident) {}
 
@@ -8,7 +8,7 @@ void PrtStmt::run() {
 
 }
 
-QJsonObject PrtStmt::compile(vector<string> args) {
+QJsonObject PrtStmt::compile(std::vector<std::string> args) {
     size_t words = args.size();
 
     QJsonObject statementObject;

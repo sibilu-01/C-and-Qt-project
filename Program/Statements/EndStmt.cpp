@@ -6,7 +6,7 @@ void EndStmt::run() {
 
 }
 
-QJsonObject EndStmt::compile(vector<string> args) {
+QJsonObject EndStmt::compile(std::vector<std::string> args) {
     size_t words = args.size();
 
     QJsonObject statementObject;

@@ -6,7 +6,7 @@ void JMoreStmt::run() {
 
 }
 
-QJsonObject JMoreStmt::compile(vector<string> args) {
+QJsonObject JMoreStmt::compile(std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 2) {

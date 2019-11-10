@@ -7,8 +7,8 @@ class Operand {
         Identifier* identifier;
     public:
         Operand(Identifier* iden);
-        Operand(string name);
-        Operand(string name, int i);
-        Operand(map<string, Identifier*> *identifiers, string name);
+        Operand(std::string name);
+        Operand(std::string name, int i);
+        Operand(std::map<std::string, Identifier*> *identifiers, std::string name);
         Identifier* getIdentifier();
 };

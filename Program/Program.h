@@ -11,31 +11,30 @@
 #include <QFile>
 #include <iterator>
 #include <map>
-using namespace std;
 
 class Statement;
 class Program {
     private:
-        map<string, Identifier*> identifier;
-        map<int, Statement*> statements;
-        string filename;
+        std::map<std::string, Identifier*> identifier;
+        std::map<int, Statement*> statements;
+        std::string filename;
         int comparisonFlag;
     public:
         int error_code = 0;
         Program();
-        Program(string fn): filename(fn) {}
+        Program(std::string);
         ~Program();
-        vector<string> splitString(string str);
-        void compile();
+        std::vector<std::string> splitString(std::string);
+        std::string compile();
         void execute();
         void print();
 
-        Identifier* getIdentifier(string name);
-        bool identifierExists(string name);
-        void addIdentifier(Identifier* ident);
+        Identifier* getIdentifier(std::string);
+        bool identifierExists(std::string);
+        void addIdentifier(Identifier*);
 
-        Statement* getStatement(int index);
-        void addStatement(int index, Statement* stat);
+        Statement* getStatement(int);
+        void addStatement(int, Statement*);
 };
 
 #endif

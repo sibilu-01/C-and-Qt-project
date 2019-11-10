@@ -6,7 +6,7 @@ void JumpStmt::run() {
 
 }
 
-QJsonObject JumpStmt::compile(vector<string> args) {
+QJsonObject JumpStmt::compile(std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 2) {

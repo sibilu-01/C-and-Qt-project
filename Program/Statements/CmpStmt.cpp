@@ -6,7 +6,7 @@ void CmpStmt::run() {
 
 }
 
-QJsonObject CmpStmt::compile(vector<string> args) {
+QJsonObject CmpStmt::compile(std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 3) {

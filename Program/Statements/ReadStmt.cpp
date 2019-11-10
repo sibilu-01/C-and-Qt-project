@@ -6,7 +6,7 @@ void ReadStmt::run() {
 
 }
 
-QJsonObject ReadStmt::compile(vector<string> args) {
+QJsonObject ReadStmt::compile(std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(variable.getIdentifier() != nullptr && words == 2) {

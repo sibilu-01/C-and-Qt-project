@@ -1,16 +1,15 @@
-#include <string>
 #include "Operand.h"
 
 Operand::Operand(Identifier* iden): identifier(iden) {
 }
 
-Operand::Operand(string name): identifier(new Identifier(name)) {
+Operand::Operand(std::string name): identifier(new Identifier(name)) {
 }
 
-Operand::Operand(string name, int i): identifier(new Variable(name, i)) {
+Operand::Operand(std::string name, int i): identifier(new Variable(name, i)) {
 }
 
-Operand::Operand(map<string, Identifier*> *identifiers, string name): identifier(identifiers->find(name)->second) {
+Operand::Operand(std::map<std::string, Identifier*> *identifiers, std::string name): identifier(identifiers->find(name)->second) {
 
 }
 

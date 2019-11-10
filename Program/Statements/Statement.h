@@ -9,13 +9,12 @@
 #include <sstream>
 #include <vector>
 #include <map>
-using namespace std;
 
 class Statement {
     public:
         virtual ~Statement() {}
         virtual void run() = 0;
-        virtual QJsonObject compile(vector<string> args) = 0;
+        virtual QJsonObject compile(std::vector<std::string> args) = 0;
         Statement() {}
 };
 
@@ -25,34 +24,34 @@ class ReadStmt: public Statement {
     public:
         ReadStmt(Identifier* var);
         void run() override;
-        QJsonObject compile(vector<string> args) override;
+        QJsonObject compile(std::vector<std::string> args) override;
 };
 
 class DeclIntStmt: public Statement {
     private:
         Operand variable;
     public:
-        DeclIntStmt(map<string, Identifier*> *identifiers, string varName);
+        DeclIntStmt(std::map<std::string, Identifier*> *identifiers, std::string varName);
         void run() override;
-        QJsonObject compile(vector<string> args) override;
+        QJsonObject compile(std::vector<std::string> args) override;
 };
 
 class EndStmt: public Statement {
     public:
         EndStmt();
         void run() override;
-        QJsonObject compile(vector<string> args) override;
+        QJsonObject compile(std::vector<std::string> args) override;
 };
 
 class PrtStmt: public Statement {
     private:
-        string variable = "";
+        std::string variable = "";
         Operand identifier = nullptr;
     public:
-        PrtStmt(string toprint);
+        PrtStmt(std::string toprint);
         PrtStmt(Identifier* ident);
         void run() override;
-        QJsonObject compile(vector<string> args) override;
+        QJsonObject compile(std::vector<std::string> args) override;
 };
 
 class CmpStmt: public Statement {
@@ -62,7 +61,7 @@ class CmpStmt: public Statement {
     public:
         CmpStmt(Identifier* variableLeft, Identifier* variableRight);
         void run() override;
-        QJsonObject compile(vector<string> args) override;
+        QJsonObject compile(std::vector<std::string> args) override;
 };
 
 class JMoreStmt: public Statement {
@@ -71,7 +70,7 @@ class JMoreStmt: public Statement {
     public:
         JMoreStmt(Identifier* jump);
         void run() override;
-        QJsonObject compile(vector<string> args) override;
+        QJsonObject compile(std::vector<std::string> args) override;
 };
 
 class JumpStmt: public Statement {
@@ -80,6 +79,6 @@ class JumpStmt: public Statement {
     public:
         JumpStmt(Identifier* jump);
         void run() override;
-        QJsonObject compile(vector<string> args) override;
+        QJsonObject compile(std::vector<std::string> args) override;
 };
 #endif

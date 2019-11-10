@@ -1,14 +1,14 @@
 #include "Statement.h"
 
-DeclIntStmt::DeclIntStmt(map<string, Identifier*> *identifiers, string varName): variable(varName, 0) {
-    identifiers->insert(pair<string, Identifier*>(variable.getIdentifier()->getName(), variable.getIdentifier()));
+DeclIntStmt::DeclIntStmt(std::map<std::string, Identifier*> *identifiers, std::string varName): variable(varName, 0) {
+    identifiers->insert(std::pair<std::string, Identifier*>(variable.getIdentifier()->getName(), variable.getIdentifier()));
 }
 
 void DeclIntStmt::run() {
 
 }
 
-QJsonObject DeclIntStmt::compile(vector<string> args) {
+QJsonObject DeclIntStmt::compile(std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 2) {
