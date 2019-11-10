@@ -8,6 +8,7 @@
 #include <QTextStream>
 #include "Program/Program.h"
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -42,6 +43,8 @@ private slots:
     void on_actionSave_As_triggered();
 
     void on_actionCompile_triggered();
+
+    void errorMessage(string);
 
 private:
     Ui::MainWindow *ui;

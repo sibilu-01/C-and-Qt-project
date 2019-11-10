@@ -84,8 +84,33 @@ void MainWindow::on_actionSave_As_triggered()
     file.close();
 }
 
+void MainWindow::errorMessage(std::string str ){
+
+    QMessageBox::warning(this, "Warning", QString::fromStdString(str));
+}
+
 void MainWindow::on_actionCompile_triggered()
 {
-    Program program = Program("example.txt");
+    //Save the program
+    QString fileName = QFileDialog::getSaveFileName(this, "Save");
+    QFile file(fileName);
+    currentFile = fileName;
+    if(!file.open(QFile::WriteOnly | QFile::Text)){
+        QMessageBox::warning(this, "Warning", "Cannot save file : " + file.errorString());
+        return;
+    }
+    currentFile = fileName;
+    setWindowTitle(fileName);
+    QTextStream out(&file);
+    QString text = ui->textEdit->toPlainText();
+    out << text;
+    file.close();
+    std::cout << fileName.toStdString() << std::endl;
+
+
+
+    // Save path as string and pass into program
+
+    Program program = Program(fileName.toStdString());
     program.compile();
 }
