@@ -1,19 +1,19 @@
 #include "Statement.h"
 
-DeclIntStmt::DeclIntStmt(): varName("") {}
-DeclIntStmt::DeclIntStmt(Operand in): varName(in) {}
+DeclIntStmt::DeclIntStmt(std::map<std::string, Identifier*> *identifiers, std::string varName): variable(varName, 0) {
+    identifiers->insert(std::pair<std::string, Identifier*>(variable.getIdentifier()->getName(), variable.getIdentifier()));
+}
 
 void DeclIntStmt::run() {
 
 }
 
-QJsonObject DeclIntStmt::compile(Program *program, string instr) {
-    string *arr = Program::splitString(instr);
-
+QJsonObject DeclIntStmt::compile(std::vector<std::string> args) {
+    size_t words = args.size();
     QJsonObject statementObject;
-    statementObject.insert("stmt", QString::fromStdString(arr[0]));
-    statementObject.insert("op1", QString::fromStdString(arr[1]));
-    program->jsonVariableIdentifiers.insert(QString::fromStdString(arr[1]), 0);
-
+    if(words == 2) {
+        statementObject.insert("stmt", QString::fromStdString("dci"));
+        statementObject.insert("var", QString::fromStdString(variable.getIdentifier()->getName()));
+    }
     return statementObject;
 }

@@ -6,11 +6,13 @@ void EndStmt::run() {
 
 }
 
-QJsonObject EndStmt::compile(Program *program, string instr) {
-    string *arr = Program::splitString(instr);
+QJsonObject EndStmt::compile(std::vector<std::string> args) {
+    size_t words = args.size();
 
     QJsonObject statementObject;
-    statementObject.insert("stmt", QString::fromStdString(arr[0]));
+    if(words == 1) {
+        statementObject.insert("stmt", QString::fromStdString("end"));
+    }
 
     return statementObject;
 }

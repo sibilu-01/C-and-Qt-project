@@ -1,9 +1,14 @@
 #include "Program/Identifier.h"
 #include <string>
+#include <map>
 
 class Operand {
     private:
-        string value;
+        Identifier* identifier;
     public:
-        Operand(string in);
+        Operand(Identifier* iden);
+        Operand(std::string name);
+        Operand(std::string name, int i);
+        Operand(std::map<std::string, Identifier*> *identifiers, std::string name);
+        Identifier* getIdentifier();
 };

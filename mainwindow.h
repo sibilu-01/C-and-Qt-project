@@ -37,7 +37,7 @@ private slots:
 
     void on_actionRedo_triggered();
 
-
+    void errorMessage(std::string);
 
     void on_actionSave_As_triggered();
 
