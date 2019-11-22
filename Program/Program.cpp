@@ -150,21 +150,50 @@ std::string Program::compile() {
             QFile jsonFile(QString::fromStdString(name));
             jsonFile.open(QFile::WriteOnly);
             jsonFile.write(doc.toJson(QJsonDocument::Indented));
+            file.close();
             return "File compiled successfully to: " + name;
         } else if(error_code == 1) {
+            file.close();
             return "Syntax error on line: " + std::to_string(linenum);
             //Report syntax error
         } else if(error_code == 2) {
+            file.close();
             return "Identifier Not Found error on line: " + std::to_string(linenum);
         } else {
+            file.close();
             return "Unknown error encountered, please check your code and try again.";
         }
-        file.close();
     }
+    file.close();
+    return "Unknown error encountered, please check your code and try again.";
 }
 
 void Program::execute() {
+    QFile file;
+    file.setFileName(QString::fromStdString(filename));
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
 
+    QString val;
+    val = file.readAll();
+    file.close();
+
+    QJsonDocument document = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject object = document.object();
+    QJsonValue indexVal = object.value("index");
+    int index = indexVal.toInt();
+
+    QJsonValue statementVal = object.value("objects");
+    QJsonObject statements = statementVal.toObject();
+    for(int i = 0; i < index; i++) {
+        QJsonObject statement = statements.value(QString(i)).toObject();
+        QString stmt = statement.value("stmt").toString();
+        Statement* stat;
+        if(stmt == "dci") {
+            stat = new DeclIntStmt(&this->identifier, statement.value("var").toString().toStdString());
+        }
+
+        stat->run();
+    }
 }
 
 void Program::print() {

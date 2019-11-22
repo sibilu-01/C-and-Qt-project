@@ -1,0 +1,55 @@
+{
+    "identifiers": {
+        "labels": {
+            "L1": 8,
+            "L2": 9
+        },
+        "variables": {
+            "a": 0,
+            "b": 0
+        }
+    },
+    "index": 10,
+    "objects": {
+        "0": {
+            "stmt": "dci",
+            "var": "a"
+        },
+        "1": {
+            "stmt": "dci",
+            "var": "b"
+        },
+        "2": {
+            "stmt": "rdi",
+            "var": "a"
+        },
+        "3": {
+            "stmt": "rdi",
+            "var": "b"
+        },
+        "4": {
+            "lvar": "a",
+            "rvar": "b",
+            "stmt": "cmp"
+        },
+        "5": {
+            "jump_pos": "L1",
+            "stmt": "jmr"
+        },
+        "6": {
+            "printvar": "b",
+            "stmt": "prt"
+        },
+        "7": {
+            "jump_pos": "L2",
+            "stmt": "jmp"
+        },
+        "8": {
+            "printvar": "a",
+            "stmt": "prt"
+        },
+        "9": {
+            "stmt": "end"
+        }
+    }
+}

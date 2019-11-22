@@ -30,6 +30,7 @@ class ReadStmt: public Statement {
 class DeclIntStmt: public Statement {
     private:
         Operand variable;
+        std::map<std::string, Identifier*>* identifiers;
     public:
         DeclIntStmt(std::map<std::string, Identifier*> *identifiers, std::string varName);
         void run() override;
