@@ -82,4 +82,42 @@ class JumpStmt: public Statement {
         void run() override;
         QJsonObject compile(std::vector<std::string> args) override;
 };
+
+class JLessStmt: public Statement {
+    private:
+        Operand jumpPos;
+    public:
+        JLessStmt(Identifier* jump);
+        void run() override;
+        QJsonObject compile(std::vector<std::string> args) override;
+}
+
+class JEqualStmt: public Statement {
+    private:
+        Operand jumpPos;
+    public:
+        JEqualStmt(Identifier* jump);
+        void run() override;
+        QJsonObject compile(std::vector<std::string> args) override;
+}
+
+class AddStmt: public AddStmt {
+    private:
+        Operand variableLeft;
+        Operand variableRight;
+    public:
+        AddStmt(Identifier* variableLeft, Identifier* variableRight);
+        void run() override;
+        QJsonObject compile(std::vector<std::string> args) override;
+};
+
+class MovStmt: public Statement {
+    private:
+        Operand variableLeft;
+        Operand variableRight;
+    public:
+        MovStmt(Identifier* variableLeft, Identifier* variableRight);
+        void run() override;
+        QJsonObject compile(std::vector<std::string> args) override;
+};
 #endif
