@@ -24,8 +24,9 @@ class Program {
         std::map<int, Statement*> statements;
         std::string filename;
         int comparisonFlag;
-    public:
         int error_code = 0;
+        int index = 0;
+    public:
         Program();
         Program(std::string);
         ~Program();
@@ -37,6 +38,8 @@ class Program {
         Identifier* getIdentifier(std::string);
         bool identifierExists(std::string);
         void addIdentifier(Identifier*);
+
+        void setIndex(int);
 
         Statement* getStatement(int);
         void addStatement(int, Statement*);

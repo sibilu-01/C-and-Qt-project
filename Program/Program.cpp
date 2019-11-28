@@ -34,7 +34,7 @@ std::string Program::compile() {
     std::cout << "Opening file " << filename << ".\n";
     file.open(filename);
     if(file.is_open()) {
-        error_code = 0;
+        this->error_code = 0;
         int index = 0;
         int linenum = 0;
         QJsonObject jsonStats;
@@ -77,21 +77,21 @@ std::string Program::compile() {
                 if(arr[1].find_first_not_of("0123456789") != std::string::npos) {
                     stat = new DeclIntStmt(new Variable(arr[1]));
                 } else {
-                    error_code = 1;
+                    this->error_code = 1;
                     break;
                 }
             } else if(arr[0] == "dca") {
                 if(arr[1].find_first_not_of("0123456789") != std::string::npos && arr[2].find_first_not_of("0123456789") == std::string::npos) {
                     stat = new DeclIntStmt(new Array(arr[1], stoi(arr[2])));
                 } else {
-                    error_code = 1;
+                    this->error_code = 1;
                     break;
                 }
             } else if(arr[0] == "rdi") {
                 if(this->identifierExists(arr[1])) {
                     stat = new ReadStmt(this->getIdentifier(arr[1]));
                 } else {
-                    error_code = 2;
+                    this->error_code = 2;
                     break;
                 }
             } else if(arr[0] == "prt") {
@@ -105,14 +105,14 @@ std::string Program::compile() {
                 if(this->identifierExists(arr[1]) && this->identifierExists(arr[2])) {
                     stat = new MovStmt(this->getIdentifier(arr[1]), this->getIdentifier(arr[2]));
                 } else {
-                    error_code = 2;
+                    this->error_code = 2;
                     break;
                 }
             } else if(arr[0] == "add") {
                 if(this->identifierExists(arr[1]) && this->identifierExists(arr[2])) {
                     stat = new AddStmt(this->getIdentifier(arr[1]), this->getIdentifier(arr[2]));
                 } else {
-                    error_code = 2;
+                    this->error_code = 2;
                     break;
                 }
             } else if(arr[0] == "cmp") {
@@ -125,35 +125,35 @@ std::string Program::compile() {
                 } else if(arr[1].find_first_not_of("0123456789") == std::string::npos && arr[2].find_first_not_of("0123456789") == std::string::npos) {
                     stat = new CmpStmt(new Variable(arr[1], stoi(arr[1])), new Variable(arr[2], stoi(arr[2])));
                 } else {
-                    error_code = 2;
+                    this->error_code = 2;
                     break;
                 }
             } else if(arr[0] == "jls") {
                 if(this->identifierExists(arr[1])) {
                     stat = new JLessStmt(this->getIdentifier(arr[1]));
                 } else {
-                    error_code = 2;
+                    this->error_code = 2;
                     break;
                 }
             } else if(arr[0] == "jmr") {
                 if(this->identifierExists(arr[1])) {
                     stat = new JMoreStmt(this->getIdentifier(arr[1]));
                 } else {
-                    error_code = 2;
+                    this->error_code = 2;
                     break;
                 }
             } else if(arr[0] == "jeq") {
                 if(this->identifierExists(arr[1])) {
                     stat = new JEqualStmt(this->getIdentifier(arr[1]));
                 } else {
-                    error_code = 2;
+                    this->error_code = 2;
                     break;
                 }
             }else if(arr[0] == "jmp") {
                 if(this->identifierExists(arr[1])) {
                     stat = new JumpStmt(this->getIdentifier(arr[1]));
                 } else {
-                    error_code = 2;
+                    this->error_code = 2;
                     break;
                 }
             } else if(arr[0] == "end") {
@@ -161,12 +161,12 @@ std::string Program::compile() {
             } else if(arr[0][0] == '#') {
                 continue;
             } else {
-                error_code = 1; // Syntax error
+                this->error_code = 1; // Syntax error
                 break;
             }
             QJsonObject statementObj = stat->compile(this, arr);
-            if(error_code != 0 || statementObj.empty()) {
-                error_code = 1;
+            if(this->error_code != 0 || statementObj.empty()) {
+                this->error_code = 1;
                 break;
             }
 
@@ -175,7 +175,7 @@ std::string Program::compile() {
             index++;
         }
 
-        if(error_code == 0) {
+        if(this->error_code == 0) {
             QJsonObject compiled;
             QJsonObject identifiersJson;
             QJsonObject labelsJson;
@@ -205,11 +205,11 @@ std::string Program::compile() {
             jsonFile.write(doc.toJson(QJsonDocument::Indented));
             file.close();
             return "File compiled successfully to: " + name;
-        } else if(error_code == 1) {
+        } else if(this->error_code == 1) {
             file.close();
             return "Syntax error on line: " + std::to_string(linenum);
             //Report syntax error
-        } else if(error_code == 2) {
+        } else if(this->error_code == 2) {
             file.close();
             return "Identifier Not Found error on line: " + std::to_string(linenum);
         } else {
@@ -237,8 +237,8 @@ void Program::execute() {
 
     QJsonValue statementVal = object.value("objects");
     QJsonObject statements = statementVal.toObject();
-    for(int i = 0; i < index; i++) {
-        QJsonObject statement = statements.value(QString(i)).toObject();
+    for(this->index = 0; this->index < index; this->index++) {
+        QJsonObject statement = statements.value(QString(this->index)).toObject();
         QString stmt = statement.value("stmt").toString();
         Statement* stat;
         if(stmt == "dci") {
@@ -272,6 +272,10 @@ Statement* Program::getStatement(int index) {
 
 void Program::addStatement(int index, Statement* stat) {
     this->statements.insert(std::pair<int, Statement*>(index, stat));
+}
+
+void Program::setIndex(int index) {
+    this->index = index;
 }
 
 std::vector<std::string> Program::splitString(std::string str) {
