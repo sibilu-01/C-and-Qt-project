@@ -278,6 +278,14 @@ void Program::setIndex(int index) {
     this->index = index;
 }
 
+int Program::getComparison() {
+    return this->comparisonFlag;
+}
+
+void Program::setComparison(int i) {
+    this->comparisonFlag = i;
+}
+
 std::vector<std::string> Program::splitString(std::string str) {
     std::stringstream ss(str);
     std::vector<std::string> args((std::istream_iterator<std::string>(ss)), std::istream_iterator<std::string>());

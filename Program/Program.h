@@ -41,6 +41,9 @@ class Program {
 
         void setIndex(int);
 
+        int getComparison();
+        void setComparison(int);
+
         Statement* getStatement(int);
         void addStatement(int, Statement*);
 };
