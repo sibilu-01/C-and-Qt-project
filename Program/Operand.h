@@ -1,4 +1,10 @@
+#ifndef OPERAND_H
+#define OPERAND_H
+
 #include "Program/Identifier.h"
+#include "Program/Variable.h"
+#include "Program/Array.h"
+#include "Program/Label.h"
 #include <string>
 #include <map>
 
@@ -7,8 +13,7 @@ class Operand {
         Identifier* identifier;
     public:
         Operand(Identifier* iden);
-        Operand(std::string name);
-        Operand(std::string name, int i);
-        Operand(std::map<std::string, Identifier*> *identifiers, std::string name);
         Identifier* getIdentifier();
 };
+
+#endif

@@ -1,18 +1,18 @@
-#include "Statement.h"
+#include "DeclIntStmt.h"
 
-DeclIntStmt::DeclIntStmt(std::map<std::string, Identifier*> *identifiers, std::string varName): variable(varName, 0), identifiers(identifiers) {}
+DeclIntStmt::DeclIntStmt(Identifier* var): variable(var) {}
 
-void DeclIntStmt::run() {
-    identifiers->insert(std::pair<std::string, Identifier*>(variable.getIdentifier()->getName(), variable.getIdentifier()));
+void DeclIntStmt::run(Program* program) {
+    program->addIdentifier(variable.getIdentifier());
 }
 
-QJsonObject DeclIntStmt::compile(std::vector<std::string> args) {
+QJsonObject DeclIntStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 2) {
         statementObject.insert("stmt", QString::fromStdString("dci"));
         statementObject.insert("var", QString::fromStdString(variable.getIdentifier()->getName()));
-        identifiers->insert(std::pair<std::string, Identifier*>(variable.getIdentifier()->getName(), variable.getIdentifier()));
+        program->addIdentifier(variable.getIdentifier());
     }
     return statementObject;
 }

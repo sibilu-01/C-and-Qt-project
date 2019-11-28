@@ -1,12 +1,12 @@
-#include "Statement.h"
+#include "MovStmt.h"
 
 MovStmt::MovStmt(Identifier* varLeft, Identifier* varRight): variableLeft(varLeft), variableRight(varRight) {}
 
-void MovStmt::run() {
+void MovStmt::run(Program* program) {
 
 }
 
-QJsonObject MovStmt::compile(std::vector<std::string> args) {
+QJsonObject MovStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 3) {

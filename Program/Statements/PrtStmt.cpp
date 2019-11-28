@@ -1,14 +1,14 @@
-#include "Statement.h"
+#include "PrtStmt.h"
 
 PrtStmt::PrtStmt(std::string s): variable(s) {}
 
 PrtStmt::PrtStmt(Identifier* ident): identifier(ident) {}
 
-void PrtStmt::run() {
+void PrtStmt::run(Program* program) {
 
 }
 
-QJsonObject PrtStmt::compile(std::vector<std::string> args) {
+QJsonObject PrtStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
 
     QJsonObject statementObject;

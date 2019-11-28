@@ -1,12 +1,12 @@
-#include "Statement.h"
+#include "JLessStmt.h"
 
-JlessStmt::JlessStmt(Identifier* jump): jumpPos(jump) {}
+JLessStmt::JLessStmt(Identifier* jump): jumpPos(jump) {}
 
-void JlsStmt::run() {
+void JLessStmt::run(Program* program) {
 
 }
 
-QJsonObject JlessStmt::compile(std::vector<std::string> args) {
+QJsonObject JLessStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 2) {

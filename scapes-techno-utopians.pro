@@ -15,16 +15,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Program/Program.cpp \
         Program/Identifier.cpp \
+        Program/Array.cpp \
+        Program/Label.cpp \
         Program/Operand.cpp \
+        Program/Variable.cpp \
+        Program/Statements/AddStmt.cpp \
         Program/Statements/CmpStmt.cpp \
+        Program/Statements/DeclArrayStmt.cpp \
         Program/Statements/DeclIntStmt.cpp \
         Program/Statements/EndStmt.cpp \
+        Program/Statements/JEqualStmt.cpp \
+        Program/Statements/JLessStmt.cpp \
         Program/Statements/JMoreStmt.cpp \
         Program/Statements/JumpStmt.cpp \
+        Program/Statements/MovStmt.cpp \
         Program/Statements/PrtStmt.cpp \
         Program/Statements/ReadStmt.cpp \
-        Program/Program.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -42,10 +50,25 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    Program/Identifier.h \
-    Program/Operand.h \
-    Program/Statements/Statement.h \
     Program/Program.h \
+    Program/Statements/Statement.h \
+    Program/Identifier.h \
+    Program/Array.h \
+    Program/Variable.h \
+    Program/Label.h \
+    Program/Operand.h \
+    Program/Statements/AddStmt.h \
+    Program/Statements/CmpStmt.h \
+    Program/Statements/DeclArrayStmt.h \
+    Program/Statements/DeclIntStmt.h \
+    Program/Statements/EndStmt.h \
+    Program/Statements/JEqualStmt.h \
+    Program/Statements/JLessStmt.h \
+    Program/Statements/JMoreStmt.h \
+    Program/Statements/JumpStmt.h \
+    Program/Statements/MovStmt.h \
+    Program/Statements/PrtStmt.h \
+    Program/Statements/ReadStmt.h \
     mainwindow.h
 
 DISTFILES += \

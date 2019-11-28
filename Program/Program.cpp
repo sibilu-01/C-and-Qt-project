@@ -1,4 +1,19 @@
 #include "Program.h"
+#include "Program/Statements/AddStmt.h"
+#include "Program/Statements/CmpStmt.h"
+#include "Program/Statements/DeclIntStmt.h"
+#include "Program/Statements/EndStmt.h"
+#include "Program/Statements/JEqualStmt.h"
+#include "Program/Statements/JLessStmt.h"
+#include "Program/Statements/JMoreStmt.h"
+#include "Program/Statements/JumpStmt.h"
+#include "Program/Statements/MovStmt.h"
+#include "Program/Statements/PrtStmt.h"
+#include "Program/Statements/ReadStmt.h"
+
+#include "Program/Variable.h"
+#include "Program/Label.h"
+#include "Program/Array.h"
 
 Program::Program(std::string fn): filename(fn) {}
 
@@ -60,7 +75,14 @@ std::string Program::compile() {
             Statement* stat;
             if(arr[0] == "dci") {
                 if(arr[1].find_first_not_of("0123456789") != std::string::npos) {
-                    stat = new DeclIntStmt(&this->identifier, arr[1]);
+                    stat = new DeclIntStmt(new Variable(arr[1]));
+                } else {
+                    error_code = 1;
+                    break;
+                }
+            } else if(arr[0] == "dca") {
+                if(arr[1].find_first_not_of("0123456789") != std::string::npos && arr[2].find_first_not_of("0123456789") == std::string::npos) {
+                    stat = new DeclIntStmt(new Array(arr[1], stoi(arr[2])));
                 } else {
                     error_code = 1;
                     break;
@@ -79,6 +101,20 @@ std::string Program::compile() {
                 } else {
                     stat = new PrtStmt(text);
                 }
+            } else if(arr[0] == "mov") {
+                if(this->identifierExists(arr[1]) && this->identifierExists(arr[2])) {
+                    stat = new MovStmt(this->getIdentifier(arr[1]), this->getIdentifier(arr[2]));
+                } else {
+                    error_code = 2;
+                    break;
+                }
+            } else if(arr[0] == "add") {
+                if(this->identifierExists(arr[1]) && this->identifierExists(arr[2])) {
+                    stat = new AddStmt(this->getIdentifier(arr[1]), this->getIdentifier(arr[2]));
+                } else {
+                    error_code = 2;
+                    break;
+                }
             } else if(arr[0] == "cmp") {
                 if(this->identifierExists(arr[1]) && this->identifierExists(arr[2])) {
                     stat = new CmpStmt(this->getIdentifier(arr[1]), this->getIdentifier(arr[2]));
@@ -92,6 +128,13 @@ std::string Program::compile() {
                     error_code = 2;
                     break;
                 }
+            } else if(arr[0] == "jls") {
+                if(this->identifierExists(arr[1])) {
+                    stat = new JLessStmt(this->getIdentifier(arr[1]));
+                } else {
+                    error_code = 2;
+                    break;
+                }
             } else if(arr[0] == "jmr") {
                 if(this->identifierExists(arr[1])) {
                     stat = new JMoreStmt(this->getIdentifier(arr[1]));
@@ -99,7 +142,14 @@ std::string Program::compile() {
                     error_code = 2;
                     break;
                 }
-            } else if(arr[0] == "jmp") {
+            } else if(arr[0] == "jeq") {
+                if(this->identifierExists(arr[1])) {
+                    stat = new JEqualStmt(this->getIdentifier(arr[1]));
+                } else {
+                    error_code = 2;
+                    break;
+                }
+            }else if(arr[0] == "jmp") {
                 if(this->identifierExists(arr[1])) {
                     stat = new JumpStmt(this->getIdentifier(arr[1]));
                 } else {
@@ -114,8 +164,7 @@ std::string Program::compile() {
                 error_code = 1; // Syntax error
                 break;
             }
-
-            QJsonObject statementObj = stat->compile(arr);
+            QJsonObject statementObj = stat->compile(this, arr);
             if(error_code != 0 || statementObj.empty()) {
                 error_code = 1;
                 break;
@@ -131,14 +180,18 @@ std::string Program::compile() {
             QJsonObject identifiersJson;
             QJsonObject labelsJson;
             QJsonObject variablesJson;
+            QJsonObject arrayJson;
             for(std::map<std::string, Identifier*>::iterator it = identifier.begin(); it!=identifier.end(); it++) {
                 if(dynamic_cast<Label*>(it->second)) {
+                    labelsJson.insert(QString::fromStdString(it->first), it->second->getValue());
+                } else if(dynamic_cast<Array*>(it->second)) {
                     labelsJson.insert(QString::fromStdString(it->first), it->second->getValue());
                 } else {
                     variablesJson.insert(QString::fromStdString(it->first), it->second->getValue());
                 }
             }
             identifiersJson.insert("variables", variablesJson);
+            identifiersJson.insert("arrays", arrayJson);
             identifiersJson.insert("labels", labelsJson);
             compiled.insert("identifiers", identifiersJson);
             compiled.insert("objects", jsonStats);
@@ -189,10 +242,10 @@ void Program::execute() {
         QString stmt = statement.value("stmt").toString();
         Statement* stat;
         if(stmt == "dci") {
-            stat = new DeclIntStmt(&this->identifier, statement.value("var").toString().toStdString());
+            stat = new DeclIntStmt(new Variable(statement.value("var").toString().toStdString()));
         }
 
-        stat->run();
+        stat->run(this);
     }
 }
 

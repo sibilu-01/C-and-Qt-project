@@ -1,12 +1,12 @@
-#include "Statement.h"
+#include "AddStmt.h"
 
 AddStmt::AddStmt(Identifier* varLeft, Identifier* varRight): variableLeft(varLeft), variableRight(varRight) {}
 
-void AddStmt::run() {
+void AddStmt::run(Program* program) {
 
 }
 
-QJsonObject AddStmt::compile(std::vector<std::string> args) {
+QJsonObject AddStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 3) {

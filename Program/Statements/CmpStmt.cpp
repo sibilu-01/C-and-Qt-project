@@ -1,12 +1,12 @@
-#include "Statement.h"
+#include "CmpStmt.h"
 
 CmpStmt::CmpStmt(Identifier* varLeft, Identifier* varRight): variableLeft(varLeft), variableRight(varRight) {}
 
-void CmpStmt::run() {
+void CmpStmt::run(Program* program) {
 
 }
 
-QJsonObject CmpStmt::compile(std::vector<std::string> args) {
+QJsonObject CmpStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 3) {

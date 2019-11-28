@@ -1,12 +1,12 @@
-#include "Statement.h"
+#include "JMoreStmt.h"
 
 JMoreStmt::JMoreStmt(Identifier* jump): jumpPos(jump) {}
 
-void JMoreStmt::run() {
+void JMoreStmt::run(Program* program) {
 
 }
 
-QJsonObject JMoreStmt::compile(std::vector<std::string> args) {
+QJsonObject JMoreStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 2) {

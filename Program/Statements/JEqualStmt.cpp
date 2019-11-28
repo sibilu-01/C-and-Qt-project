@@ -1,12 +1,12 @@
-#include "Statement.h"
+#include "JEqualStmt.h"
 
 JEqualStmt::JEqualStmt(Identifier* jump): jumpPos(jump) {}
 
-void JEqualStmt::run() {
+void JEqualStmt::run(Program* program) {
 
 }
 
-QJsonObject JEqualStmt::compile(std::vector<std::string> args) {
+QJsonObject JEqualStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 2) {

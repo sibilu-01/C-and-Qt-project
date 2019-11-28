@@ -1,12 +1,12 @@
-#include "Statement.h"
+#include "JumpStmt.h"
 
 JumpStmt::JumpStmt(Identifier* jump): jumpPos(jump) {}
 
-void JumpStmt::run() {
+void JumpStmt::run(Program* program) {
 
 }
 
-QJsonObject JumpStmt::compile(std::vector<std::string> args) {
+QJsonObject JumpStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
     QJsonObject statementObject;
     if(words == 2) {

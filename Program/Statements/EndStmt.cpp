@@ -1,12 +1,12 @@
-#include "Statement.h"
+#include "EndStmt.h"
 
 EndStmt::EndStmt() {}
 
-void EndStmt::run() {
+void EndStmt::run(Program* program) {
 
 }
 
-QJsonObject EndStmt::compile(std::vector<std::string> args) {
+QJsonObject EndStmt::compile(Program* program, std::vector<std::string> args) {
     size_t words = args.size();
 
     QJsonObject statementObject;
