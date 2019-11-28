@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "rundialog.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -113,4 +115,11 @@ void MainWindow::on_actionCompile_triggered()
     Program program = Program(fileName.toStdString());
     std::string compiled = program.compile();
     errorMessage(compiled);
+}
+
+void MainWindow::on_actionRun_triggered()
+{
+        RunDialog runBox;
+        runBox.setModal(true);
+        runBox.exec();
 }

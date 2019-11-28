@@ -26,7 +26,8 @@ SOURCES += \
         Program/Statements/ReadStmt.cpp \
         Program/Program.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        rundialog.cpp
 
 RESOURCES += qml.qrc
 
@@ -46,10 +47,12 @@ HEADERS += \
     Program/Operand.h \
     Program/Statements/Statement.h \
     Program/Program.h \
-    mainwindow.h
+    mainwindow.h \
+    rundialog.h
 
 DISTFILES += \
     example.txt
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    rundialog.ui
