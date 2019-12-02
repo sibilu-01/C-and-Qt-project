@@ -3,7 +3,10 @@
 JEqualStmt::JEqualStmt(Identifier* jump): jumpPos(jump) {}
 
 void JEqualStmt::run(Program* program) {
-
+    int jumpDestination = jump->getValue();
+    if (program->comparisonFlag == 0) {
+        program->setIndex(jumpDestination);
+    }
 }
 
 QJsonObject JEqualStmt::compile(Program* program, std::vector<std::string> args) {

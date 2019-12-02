@@ -3,7 +3,8 @@
 JumpStmt::JumpStmt(Identifier* jump): jumpPos(jump) {}
 
 void JumpStmt::run(Program* program) {
-
+    int jumpDestination = jump->getValue();
+    program->setIndex(jumpDestination);
 }
 
 QJsonObject JumpStmt::compile(Program* program, std::vector<std::string> args) {

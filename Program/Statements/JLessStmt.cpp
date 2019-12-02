@@ -3,7 +3,10 @@
 JLessStmt::JLessStmt(Identifier* jump): jumpPos(jump) {}
 
 void JLessStmt::run(Program* program) {
-
+    int jumpDestination = jump->getValue();
+    if (program->comparisonFlag == -1) {
+        program->setIndex(jumpDestination);
+    }
 }
 
 QJsonObject JLessStmt::compile(Program* program, std::vector<std::string> args) {

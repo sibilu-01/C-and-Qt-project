@@ -3,7 +3,10 @@
 JMoreStmt::JMoreStmt(Identifier* jump): jumpPos(jump) {}
 
 void JMoreStmt::run(Program* program) {
-
+    int jumpDestination = jump->getValue();
+    if (program->comparisonFlag == 1) {
+        program->setIndex(jumpDestination);
+    }
 }
 
 QJsonObject JMoreStmt::compile(Program* program, std::vector<std::string> args) {
