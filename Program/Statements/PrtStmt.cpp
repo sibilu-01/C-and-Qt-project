@@ -13,12 +13,12 @@ QJsonObject PrtStmt::compile(Program* program, std::vector<std::string> args) {
 
     QJsonObject statementObject;
     if(words >= 2) { // Words 2 args or greater.
-        if(variable.find('\"') != std::string::npos) {
-            if(variable.front() == '\"' && variable.back() == '\"') {
-                variable.erase(0, 1);
-                variable.erase(variable.size() - 1);
+        if(this->variable.find('\"') != std::string::npos) {
+            if(this->variable.front() == '\"' && this->variable.back() == '\"') {
+                this->variable.erase(0, 1);
+                this->variable.erase(this->variable.size() - 1);
                 statementObject.insert("stmt", "prt");
-                statementObject.insert("printlit", QString::fromStdString(variable));
+                statementObject.insert("printlit", QString::fromStdString(this->variable));
             }
         } else if(identifier.getIdentifier() != nullptr) {
             statementObject.insert("stmt", "prt");

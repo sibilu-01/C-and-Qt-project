@@ -10,8 +10,8 @@ QJsonObject MovStmt::compile(Program* program, std::vector<std::string> args) {
     QJsonObject statementObject;
     if(words == 3) {
         statementObject.insert("stmt", QString::fromStdString("mov"));
-        statementObject.insert("lvar", QString::fromStdString(variableLeft.getIdentifier()->getName()));
-        statementObject.insert("rvar", QString::fromStdString(variableRight.getIdentifier()->getName()));
+        statementObject.insert("lvar", QString::fromStdString(this->variableLeft.getIdentifier()->getName()));
+        statementObject.insert("rvar", QString::fromStdString(this->variableRight.getIdentifier()->getName()));
     }
     return statementObject;
 }

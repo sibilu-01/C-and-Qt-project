@@ -3,7 +3,7 @@
 DeclArrayStmt::DeclArrayStmt(Identifier* array): array(array) {}
 
 void DeclArrayStmt::run(Program* program) {
-    program->addIdentifier(array.getIdentifier());
+    program->addIdentifier(this->array.getIdentifier());
 }
 
 QJsonObject DeclArrayStmt::compile(Program* program, std::vector<std::string> args) {
@@ -11,9 +11,9 @@ QJsonObject DeclArrayStmt::compile(Program* program, std::vector<std::string> ar
     QJsonObject statementObject;
     if(words == 2) {
         statementObject.insert("stmt", QString::fromStdString("dci"));
-        statementObject.insert("name", QString::fromStdString(array.getIdentifier()->getName()));
-        statementObject.insert("size", array.getIdentifier()->getValue());
-        program->addIdentifier(array.getIdentifier());
+        statementObject.insert("name", QString::fromStdString(this->array.getIdentifier()->getName()));
+        statementObject.insert("size", this->array.getIdentifier()->getValue());
+        program->addIdentifier(this->array.getIdentifier());
     }
     return statementObject;
 }
