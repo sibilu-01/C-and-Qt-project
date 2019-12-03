@@ -3,7 +3,8 @@
 AddStmt::AddStmt(Identifier* varLeft, Identifier* varRight): variableLeft(varLeft), variableRight(varRight) {}
 
 void AddStmt::run(Program* program) {
-
+      int sum = variableLeft.getIdentifier()->getValue() + variableRight.getIdentifier()->getValue();
+      variableRight.getIdentifier()->setValue(sum);
 }
 
 QJsonObject AddStmt::compile(Program* program, std::vector<std::string> args) {
