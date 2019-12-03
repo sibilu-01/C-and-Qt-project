@@ -1,5 +1,6 @@
 #include "rundialog.h"
 #include "ui_rundialog.h"
+#include <iostream>
 
 RunDialog::RunDialog(QWidget *parent) :
     QDialog(parent),
@@ -11,4 +12,11 @@ RunDialog::RunDialog(QWidget *parent) :
 RunDialog::~RunDialog()
 {
     delete ui;
+}
+
+void RunDialog::printMess(QString str ){
+    QTextStream out(&str);
+     str = ui->textEdit->toPlainText();
+    out << str;
+
 }
