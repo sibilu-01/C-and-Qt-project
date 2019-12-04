@@ -2,7 +2,7 @@
 #define IDENTIFIER_H
 
 #include <string>
-#include "vector"
+#include <vector>
 
 class Identifier {
     private:
@@ -14,6 +14,8 @@ class Identifier {
         virtual int getValue() {
             return 0;
         }
+
+        virtual void setValue(int i) {}
 
         std::string getName();
 };

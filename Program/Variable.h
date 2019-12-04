@@ -11,7 +11,7 @@ class Variable: public Identifier {
         ~Variable() override {}
 
         int getValue() override;
-        void setValue(int i);
+        void setValue(int i) override;
 };
 
 #endif // VARIABLE_H

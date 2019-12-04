@@ -10,6 +10,7 @@ class Label: public Identifier {
         ~Label() override {}
 
         int getValue() override;
+        void setValue(int i) override;
 };
 
 #endif // LABEL_H

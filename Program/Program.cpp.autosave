@@ -251,7 +251,7 @@ void Program::execute() {
     }
 }
 
-void Program::print() {
+void Program::print(std::string s) {
 
 }
 

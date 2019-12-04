@@ -30,12 +30,13 @@ class Program {
     public:
         Program();
         Program(std::string);
+        Program(std::string, );
         ~Program();
         bool is_number(std::string);
         std::vector<std::string> splitString(std::string);
         std::string compile();
         void execute();
-        void print();
+        void print(std::string);
 
         Identifier* getIdentifier(std::string);
         bool identifierExists(std::string);

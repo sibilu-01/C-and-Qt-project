@@ -66,6 +66,7 @@
      <string>Compile</string>
     </property>
     <addaction name="actionCompile"/>
+    <addaction name="actionRun"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuRun"/>
@@ -128,6 +129,11 @@
   <action name="actionCompile">
    <property name="text">
     <string>Compile</string>
+   </property>
+  </action>
+  <action name="actionRun">
+   <property name="text">
+    <string>Run</string>
    </property>
   </action>
  </widget>

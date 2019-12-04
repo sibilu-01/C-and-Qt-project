@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "rundialog.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -114,3 +116,40 @@ void MainWindow::on_actionCompile_triggered()
     std::string compiled = program.compile();
     errorMessage(compiled);
 }
+
+void MainWindow::on_actionRun_triggered()
+{
+
+    QString fileName = QFileDialog::getSaveFileName(this, "Save");
+    QFile file(fileName);
+    currentFile = fileName;
+    if(!file.open(QFile::WriteOnly | QFile::Text)){
+        QMessageBox::warning(this, "Warning", "Cannot save file : " + file.errorString());
+        return;
+    }
+    currentFile = fileName;
+    setWindowTitle(fileName);
+    QTextStream out(&file);
+    QString text = ui->textEdit->toPlainText();
+    out << text;
+    file.close();
+    std::cout << fileName.toStdString() << std::endl;
+
+
+
+    // Save path as string and pass into program
+
+    Program program = Program(fileName.toStdString());
+    std::string compiled = program.compile();
+    errorMessage(compiled);
+
+
+        RunDialog runBox;
+        runBox.setModal(true);
+        runBox.exec();
+        
+
+   
+    
+    }
+

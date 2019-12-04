@@ -3,6 +3,7 @@
 MovStmt::MovStmt(Identifier* varLeft, Identifier* varRight): variableLeft(varLeft), variableRight(varRight) {}
 
 void MovStmt::run(Program* program) {
+    this->variableRight.getIdentifier()->setValue(this->variableLeft.getIdentifier()->getValue());
 }
 
 QJsonObject MovStmt::compile(Program* program, std::vector<std::string> args) {

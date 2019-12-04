@@ -3,6 +3,7 @@
 EndStmt::EndStmt() {}
 
 void EndStmt::run(Program* program) {
+    program->setExecuting(false);
 }
 
 QJsonObject EndStmt::compile(Program* program, std::vector<std::string> args) {

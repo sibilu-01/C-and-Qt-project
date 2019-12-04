@@ -5,14 +5,6 @@ PrtStmt::PrtStmt(std::string s): variable(s) {}
 PrtStmt::PrtStmt(Identifier* ident): identifier(ident) {}
 
 void PrtStmt::run(Program* program) {
-     if(variable){
-        std::std::cout << variable<< '\n';
-      }
-      else if (identifier.getIdentifier()->getValue()) {
-        std::std::cout << identifier.getIdentifier()->getValue() << '\n';
-      }
-
-
 }
 
 QJsonObject PrtStmt::compile(Program* program, std::vector<std::string> args) {
