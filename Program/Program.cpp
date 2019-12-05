@@ -115,7 +115,6 @@ std::string Program::compile() {
                     break;
                 }
             } else if(arr[0] == "add") {
-                std::cout << arr[1] << " " << is_number(arr[1]) << "\n";
                 if(this->identifierExists(arr[1]) && this->identifierExists(arr[2])) {
                     stat = new AddStmt(this->getIdentifier(arr[1]), this->getIdentifier(arr[2]));
                 } else if(is_number(arr[1]) && this->identifierExists(arr[2])) {

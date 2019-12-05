@@ -1,8 +1,9 @@
 #include "DeclIntStmt.h"
 
-DeclIntStmt::DeclIntStmt(Identifier* var): variable(var) {}
+DeclIntStmt::DeclIntStmt(Identifier* var): variable(var) {var->setValue(0);}
 
 void DeclIntStmt::run(Program* program) {
+    this->variable.getIdentifier()->setValue(0);
     program->addIdentifier(this->variable.getIdentifier());
 }
 

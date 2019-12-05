@@ -4,7 +4,7 @@ DeclArrayStmt::DeclArrayStmt(Identifier* array): array(array) {}
 
 void DeclArrayStmt::run(Program* program) {
     program->addIdentifier(this->array.getIdentifier());
-    for(int i = 0; i < this->array.getIdentifier()->getValue()-1; i++)
+    for(int i = 0; i < this->array.getIdentifier()->getValue(); i++)
         program->addIdentifier(dynamic_cast<Array*>(this->array.getIdentifier())->getValue(i));
 }
 
