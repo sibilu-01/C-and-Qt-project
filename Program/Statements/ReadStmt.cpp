@@ -1,9 +1,11 @@
 #include "ReadStmt.h"
+#include <QEventLoop>
 
 ReadStmt::ReadStmt(Identifier* var): variable(var) {}
 
 void ReadStmt::run(Program* program) {
-    
+    if(program->is_number(program->getInput()))
+        variable.getIdentifier()->setValue(std::stoi(program->getInput()));
 }
 
 QJsonObject ReadStmt::compile(Program* program, std::vector<std::string> args) {

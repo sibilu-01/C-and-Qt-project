@@ -5,8 +5,10 @@
 class ReadStmt: public Statement {
     private:
         Operand variable;
+        RunDialog* rd;
     public:
-        ReadStmt(Identifier* var);
+        ReadStmt(Identifier*);
+
         void run(Program*) override;
         QJsonObject compile(Program*, std::vector<std::string>) override;
 };

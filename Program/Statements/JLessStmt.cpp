@@ -5,7 +5,7 @@ JLessStmt::JLessStmt(Identifier* jump): jumpPos(jump) {}
 void JLessStmt::run(Program* program) {
     int jumpDestination = this->jumpPos.getIdentifier()->getValue();
     if (program->getComparison() == -1) {
-        program->setIndex(jumpDestination);
+        program->setIndex(jumpDestination-1);
     }
 }
 

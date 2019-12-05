@@ -5,7 +5,7 @@ JEqualStmt::JEqualStmt(Identifier* jump): jumpPos(jump) {}
 void JEqualStmt::run(Program* program) {
     int jumpDestination = this->jumpPos.getIdentifier()->getValue();
     if (program->getComparison() == 0) {
-        program->setIndex(jumpDestination);
+        program->setIndex(jumpDestination-1);
     }
 }
 

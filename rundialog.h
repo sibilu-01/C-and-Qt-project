@@ -7,7 +7,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTextStream>
-#include <iostream>
+#include <QThread>
+#include <QEventLoop>
 
 namespace Ui {
 class RunDialog;
@@ -17,17 +18,24 @@ class RunDialog : public QDialog
 {
     Q_OBJECT
 
+private:
+    QThread programThread;
+    Ui::RunDialog *ui;
+
 public:
     explicit RunDialog(QWidget *parent = nullptr);
-    ~RunDialog();
+    ~RunDialog() override;
+    void showEvent(QShowEvent*) override;
 
 private slots:
-void printMess(QString);
 
+    void on_pushButton_pressed();
 
-
-private:
-    Ui::RunDialog *ui;
+public slots:
+    void printMess(QString);
+signals:
+    void execute();
+    void input(QString);
 };
 
 #endif // RUNDIALOG_H
