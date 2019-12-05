@@ -121,6 +121,23 @@ void MainWindow::on_actionRun_triggered()
 {
         RunDialog runBox;
         runBox.setModal(true);
+
+        QThread programThread;
+        QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open Program"), nullptr, tr("Compiled Files (*.json)"));
+
+        Program* program = new Program(fileName.toStdString());
+        program->moveToThread(&programThread);
+
+        connect(&programThread, &QThread::finished, program, &QObject::deleteLater);
+        connect(&runBox, &RunDialog::execute, program, &Program::execute);
+        connect(program, &Program::print, &runBox, &RunDialog::printMess);
+        connect(&runBox, &RunDialog::input, program, &Program::input);
+
+        programThread.start();
         runBox.exec();
+
+        programThread.quit();
+        programThread.wait();
 }
 

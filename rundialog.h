@@ -19,7 +19,6 @@ class RunDialog : public QDialog
     Q_OBJECT
 
 private:
-    QThread programThread;
     Ui::RunDialog *ui;
 
 public:

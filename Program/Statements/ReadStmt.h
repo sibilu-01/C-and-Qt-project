@@ -5,7 +5,6 @@
 class ReadStmt: public Statement {
     private:
         Operand variable;
-        RunDialog* rd;
     public:
         ReadStmt(Identifier*);
 

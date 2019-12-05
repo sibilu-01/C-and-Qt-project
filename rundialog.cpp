@@ -8,26 +8,10 @@ RunDialog::RunDialog(QWidget *parent) :
     ui(new Ui::RunDialog)
 {
     ui->setupUi(this);
-
-    QString fileName = QFileDialog::getOpenFileName(this,
-    tr("Open Program"), nullptr, tr("Compiled Files (*.json)"));
-
-    Program* program = new Program(fileName.toStdString());
-    program->moveToThread(&programThread);
-
-    connect(&programThread, &QThread::finished, program, &QObject::deleteLater);
-    connect(this, &RunDialog::execute, program, &Program::execute);
-    connect(program, &Program::print, this, &RunDialog::printMess);
-    connect(this, &RunDialog::input, program, &Program::input);
-
-
-    programThread.start();
 }
 
 RunDialog::~RunDialog()
 {
-    programThread.quit();
-    programThread.wait();
     delete ui;
 }
 

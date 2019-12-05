@@ -7,7 +7,6 @@ class PrtStmt: public Statement {
         std::string variable = "";
         Operand identifier = nullptr;
         bool type;
-        RunDialog *rd;
     public:
         PrtStmt(std::string toprint);
         PrtStmt(Identifier* ident);

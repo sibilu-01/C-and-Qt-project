@@ -14,7 +14,12 @@ QJsonObject DeclArrayStmt::compile(Program* program, std::vector<std::string> ar
     if(words == 3) {
         statementObject.insert("stmt", QString::fromStdString("dca"));
         statementObject.insert("name", QString::fromStdString(this->array.getIdentifier()->getName()));
-        statementObject.insert("size", this->array.getIdentifier()->getValue());
+        if(this->array.getIdentifier()->getValue() == 0) {
+            statementObject.insert("size", QString::fromStdString(dynamic_cast<Array*>(this->array.getIdentifier())->getArgName()));
+        } else {
+            statementObject.insert("size", this->array.getIdentifier()->getValue());
+        }
+
 
         program->addIdentifier(this->array.getIdentifier());
         for(int i = 0; i < this->array.getIdentifier()->getValue(); i++)

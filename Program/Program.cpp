@@ -87,6 +87,8 @@ std::string Program::compile() {
             } else if(arr[0] == "dca") {
                 if(!is_number(arr[1]) && is_number(arr[2])) {
                     stat = new DeclArrayStmt(new Array(arr[1], stoi(arr[2])));
+                } else if(!is_number(arr[1]) && this->identifierExists(arr[2])) {
+                    stat = new DeclArrayStmt(new Array(arr[1], this->getIdentifier(arr[2])));
                 } else {
                     this->error_code = 1;
                     break;
@@ -254,7 +256,11 @@ void Program::execute() {
         if(stmt == "dci") {
             stat = new DeclIntStmt(new Variable(statement.value("var").toString().toStdString()));
         } else if(stmt == "dca") {
-            stat = new DeclArrayStmt(new Array(statement.value("name").toString().toStdString(), statement.value("size").toInt()));
+            if(is_number(statement.value("size").toString().toStdString())) {
+                stat = new DeclArrayStmt(new Array(statement.value("name").toString().toStdString(), statement.value("size").toInt()));
+            } else {
+                stat = new DeclArrayStmt(new Array(statement.value("name").toString().toStdString(), this->getIdentifier(statement.value("size").toString().toStdString())));
+            }
         } else if(stmt == "rdi") {
             loop.exec();
             stat = new ReadStmt(this->getIdentifier(statement.value("var").toString().toStdString()));
